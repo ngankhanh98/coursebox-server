@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Teachers } from 'src/entites/teachers.entity';
+import { Teachers } from 'src/entities/teachers.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -10,7 +10,12 @@ export class TeachersService {
     private readonly TeachersRepository: Repository<Teachers>,
   ) {}
 
-  getAll() {
-    return this.TeachersRepository.find({});
+  async getAll() {
+    const result = await this.TeachersRepository.findOne({ teacher_id: '1' });
+    const connection = await this.TeachersRepository.manager;
+    console.log('connection', connection);
+    console.log('this.TeachersRepository', this.TeachersRepository);
+    console.log('result', result);
+    return result;
   }
 }

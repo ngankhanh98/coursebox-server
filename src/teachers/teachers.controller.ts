@@ -3,12 +3,10 @@ import { TeachersService } from './teachers.service';
 
 @Controller('teachers')
 export class TeachersController {
-  constructor(private readonly TeachersService: TeachersService ) {
-    
-  }
+  constructor(private readonly TeachersService: TeachersService) {}
   @Get('/')
-  getAll(){
-    return this.TeachersService.getAll()
+  getAll() {
+    console.log('hello');
+    return this.TeachersService.getAll();
   }
-  
 }
