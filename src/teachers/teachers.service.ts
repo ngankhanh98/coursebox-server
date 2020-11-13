@@ -11,7 +11,7 @@ export class TeachersService {
   ) {}
 
   async getAll() {
-    const result = await this.TeachersRepository.findOne({ teacher_id: '1' });
+    const result = await this.TeachersRepository.find({})
     const connection = await this.TeachersRepository.manager;
     console.log('connection', connection);
     console.log('this.TeachersRepository', this.TeachersRepository);
