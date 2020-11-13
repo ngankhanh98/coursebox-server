@@ -21,14 +21,14 @@ NestJS + mySQL
 
 ## ❄ API endpoint
 ### Teacher
-- GET - /teachers
-- GET - /teachers/{teacher_id}
-- GET - /teachers/me
-- POST - /teachers
-- PUT - /teachers/{teacher_id}
-- PATCH - /teachers/{teacher_id}
-- DELETE - /teachers/{teacher_id}
-- GET - /teachers/search?{title(course), tag, fullname}
+- [x] GET - /teachers
+- [x] GET - /teachers/{teacher_id}
+- [ ] GET - /teachers/me
+- [x] POST - /teachers
+- [x] PUT - /teachers/{teacher_id}
+- [x] PATCH - /teachers/{teacher_id}
+- [x] DELETE - /teachers/{teacher_id}
+- [ ] GET - /teachers/search?{title(course), tag, fullname}
 ### Course
 - GET - /courses
 - GET - /courses/{course_id}
@@ -49,6 +49,9 @@ NestJS + mySQL
 - PATCH - /members/{member_id}
 - DELETE - /members/{member_id}
 
+## Things to mind
+- [ ] Swagger with standard
+- [ ] nestjsx/crud
 
 ## How can this built? 
 and bugs with solutions
@@ -210,3 +213,6 @@ export const DatabaseProvider = TypeOrmModule.forRootAsync({
 });
 
 ```
+
+## Nestjsx/crud
+Follow this [docs](https://github.com/nestjsx/crud/wiki/Controllers#install) and you would be fine
