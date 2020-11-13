@@ -1,12 +1,19 @@
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { localDBConfig } from 'src/configs/database.config';
 
-export default TypeOrmModule.forRoot({
-  type: 'mysql',
-  host: 'localhost',
-  port: 3306,
-  username: 'root',
-  password: 'root',
-  database: 'coursebox',
-  entities: ['"dist/**/*.entity{.ts,.js}"'],
-  synchronize: true,
+export const DatabaseProvider = TypeOrmModule.forRootAsync({
+  imports: [
+    ConfigModule.forRoot({
+      load: [localDBConfig],
+    }),
+  ],
+  inject: [ConfigService],
+  useFactory: (configService: ConfigService): TypeOrmModuleOptions => {
+    return {
+      ...configService.get('localDB'),
+      cache: true,
+      entities: ['"dist/**/*.entity{.ts,.js}"'],
+    };
+  },
 });

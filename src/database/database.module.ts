@@ -1,7 +1,10 @@
 import { Module } from '@nestjs/common';
-import DatabaseProvider from './database.provider';
+import { Connection } from 'typeorm';
+import { DatabaseProvider } from './database.provider';
 
 @Module({
   imports: [DatabaseProvider],
 })
-export class DatabaseModule {}
+export class DatabaseModule {
+  constructor(private connection: Connection) {}
+}
