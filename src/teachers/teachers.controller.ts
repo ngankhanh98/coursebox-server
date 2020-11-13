@@ -10,9 +10,9 @@
 //   }
 // }
 
-import { Controller } from '@nestjs/common';
-import { ApiTags } from '@nestjs/swagger';
-import { Crud, CrudController } from '@nestjsx/crud';
+import { Controller, Get, Query, UseInterceptors } from '@nestjs/common';
+import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { Crud, CrudController, CrudRequestInterceptor } from '@nestjsx/crud';
 import { Teachers } from 'src/entities/teachers.entity';
 import { TeachersService } from './teachers.service';
 
@@ -35,4 +35,15 @@ import { TeachersService } from './teachers.service';
 @Controller('teachers')
 export class TeachersController implements CrudController<Teachers> {
   constructor(public service: TeachersService) {}
+
+  // @Get('/me')
+
+  @UseInterceptors(CrudRequestInterceptor)
+  @Get('/search')
+  // FIXME: how to shorten @ApiQuery, what if users are let to query with 100 filter \O/
+  @ApiQuery({ name: 'fullname', required: false })
+  @ApiQuery({ name: 'teacher_id', required: false })
+  async find(@Query('') filter: string) {
+    return await this.service.searchFor(filter);
+  }
 }

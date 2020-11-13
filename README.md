@@ -28,7 +28,7 @@ NestJS + mySQL
 - [x] PUT - /teachers/{teacher_id}
 - [x] PATCH - /teachers/{teacher_id}
 - [x] DELETE - /teachers/{teacher_id}
-- [ ] GET - /teachers/search?{title(course), tag, fullname}
+- [x] GET - /teachers/search?{title(course), tag, fullname}
 ### Course
 - GET - /courses
 - GET - /courses/{course_id}
