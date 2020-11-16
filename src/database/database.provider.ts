@@ -7,15 +7,15 @@ import { Teachers } from '../entities/teachers.entity';
 export const DatabaseProvider = TypeOrmModule.forRootAsync({
   imports: [
     ConfigModule.forRoot({
-      // load: [localMySql],
-      load: [remoteMySql],
+      load: [localMySql],
+      // load: [remoteMySql],
     }),
   ],
   inject: [ConfigService],
   useFactory: (configService: ConfigService): TypeOrmModuleOptions => {
     return {
-      // ...configService.get('localMySql'),
-      ...configService.get('remoteMySql'),
+      ...configService.get('localMySql'),
+      // ...configService.get('remoteMySql'),
       entities: [Teachers],
       keepConnectionAlive: true,
       synchronize: true,

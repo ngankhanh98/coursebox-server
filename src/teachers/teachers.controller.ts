@@ -12,13 +12,6 @@ import { TeachersService } from './teachers.service';
   model: {
     type: Teachers,
   },
-  params: {
-    teacher_id: {
-      field: 'teacher_id',
-      type: 'string',
-      primary: true,
-    },
-  },
   routes: {
     exclude: ['createManyBase'],
   },
