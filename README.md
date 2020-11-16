@@ -9,7 +9,7 @@ NestJS + mySQL
 
 ## 📐 ERD Diagram
 
-![](https://github.com/ngankhanh98/coursebox-server/blob/main/docs/erd.v0.1.png?raw=true)
+![](https://github.com/ngankhanh98/coursebox-server/blob/main/docs/erd.v0.2.png?raw=true)
 
 - Teachers:
 **A teacher** might have **n courses**.
@@ -24,19 +24,19 @@ NestJS + mySQL
 - [x] GET - /teachers
 - [x] GET - /teachers/{teacher_id}
 - [ ] GET - /teachers/me
-- [x] POST - /teachers
+- [x] POST - /teachers ----> POST /auth/teachers/register
 - [x] PUT - /teachers/{teacher_id}
 - [x] PATCH - /teachers/{teacher_id}
-- [x] DELETE - /teachers/{teacher_id}
+- [x] DELETE - /teachers/{teacher_id}   ----> POST /auth/teachers/deactive
 - [x] GET - /teachers/search?{title(course), tag, fullname}
 ### Course
-- [ ] GET - /courses
-- [ ] GET - /courses/{course_id}
+- [x] GET - /courses
+- [x] GET - /courses/{course_id}
 - [ ] GET - /courses/search?{fullname(teacher), tag}
-- [ ] POST - /courses
-- [ ] PUT - /courses/{course_id}
-- [ ] PATCH - /courses/{course_id}
-- [ ] DELETE - /courses/{course_id}
+- [x] POST - /courses ----> accessToken required, why? because only teacher can create his own courses
+- [x] PUT - /courses/{course_id}
+- [x] PATCH - /courses/{course_id}
+- [x] DELETE - /courses/{course_id}
 
 ### Member
 

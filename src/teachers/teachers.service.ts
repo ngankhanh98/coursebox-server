@@ -1,9 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { resolve } from 'path';
-import { from, Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 import { Teachers } from 'src/entities/teachers.entity';
 import { getTeacherDto } from './dto/teacher.dto';
 
