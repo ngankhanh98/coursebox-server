@@ -1,15 +1,3 @@
-// import { Controller, Get } from '@nestjs/common';
-// import { TeachersService } from './teachers.service';
-
-// @Controller('teachers')
-// export class TeachersController {
-//   constructor(private readonly TeachersService: TeachersService) {}
-//   @Get('/')
-//   getAll() {
-//     return this.TeachersService.getAll();
-//   }
-// }
-
 import { Controller, Get, Query, UseInterceptors } from '@nestjs/common';
 import { ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController, CrudRequestInterceptor } from '@nestjsx/crud';
