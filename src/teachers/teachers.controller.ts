@@ -37,7 +37,7 @@ export class TeachersController implements CrudController<Teachers> {
     let normalisedResult = ret.flat();
 
     const result = normalisedResult.filter(
-      (v, i, a) => a.findIndex(t => t.teacher_id === v.teacher_id) === i,
+      (v, i, a) => a.findIndex(t => t['teacher_id'] === v['teacher_id']) === i,
     );
 
     return result;
