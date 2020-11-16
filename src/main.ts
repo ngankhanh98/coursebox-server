@@ -6,6 +6,7 @@ declare const module: any;
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  app.setGlobalPrefix('v1');
 
   if (module.hot) {
     module.hot.accept();
@@ -15,11 +16,11 @@ async function bootstrap() {
   const options = new DocumentBuilder()
     .setTitle('Coursebox API')
     .setDescription('This APIs for Coursebox')
-    .setVersion('0.1')
+    .setVersion('1.0')
     .build();
   const document = SwaggerModule.createDocument(app, options);
-  SwaggerModule.setup('docs', app, document);
+  SwaggerModule.setup('api', app, document);
 
-  await app.listen(3000);
+  await app.listen(process.env.PORT || 3000);
 }
 bootstrap();

@@ -30,13 +30,13 @@ NestJS + mySQL
 - [x] DELETE - /teachers/{teacher_id}
 - [x] GET - /teachers/search?{title(course), tag, fullname}
 ### Course
-- GET - /courses
-- GET - /courses/{course_id}
-- GET - /courses/search?{fullname(teacher), tag}
-- POST - /courses
-- PUT - /courses/{course_id}
-- PATCH - /courses/{course_id}
-- DELETE - /courses/{course_id}
+- [ ] GET - /courses
+- [ ] GET - /courses/{course_id}
+- [ ] GET - /courses/search?{fullname(teacher), tag}
+- [ ] POST - /courses
+- [ ] PUT - /courses/{course_id}
+- [ ] PATCH - /courses/{course_id}
+- [ ] DELETE - /courses/{course_id}
 
 ### Member
 
@@ -50,7 +50,7 @@ NestJS + mySQL
 - DELETE - /members/{member_id}
 
 ## Things to mind
-- [ ] Swagger with standard
+- [ ] Swagger with standard description
 - [ ] nestjsx/crud
 
 ## How can this built? 
