@@ -1,6 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { resolve } from 'path';
+import { from, Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { Teachers } from 'src/entities/teachers.entity';
 
 @Injectable()
@@ -9,7 +12,7 @@ export class TeachersService extends TypeOrmCrudService<Teachers> {
     super(repo);
   }
 
-  async searchFor(filters: Object) {
+  searchFor(filters: Object) {
     const keys = Object.keys(filters);
     const values = Object.values(filters);
     const promises = keys.map(
@@ -30,7 +33,6 @@ export class TeachersService extends TypeOrmCrudService<Teachers> {
     );
 
     return Promise.all(promises).then(value => {
-      console.log(value);
       return value;
     });
   }
