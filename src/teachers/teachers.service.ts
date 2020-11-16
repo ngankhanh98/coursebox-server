@@ -5,6 +5,7 @@ import { resolve } from 'path';
 import { from, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { Teachers } from 'src/entities/teachers.entity';
+import { getTeacherDto } from './dto/teacher.dto';
 
 @Injectable()
 export class TeachersService extends TypeOrmCrudService<Teachers> {
@@ -12,7 +13,7 @@ export class TeachersService extends TypeOrmCrudService<Teachers> {
     super(repo);
   }
 
-  searchFor(filters: Object) {
+  searchFor(filters: Object): Promise<getTeacherDto[] | unknown[]> {
     const keys = Object.keys(filters);
     const values = Object.values(filters);
     const promises = keys.map(

@@ -1,9 +1,11 @@
 import { Controller, Get, Query, UseInterceptors } from '@nestjs/common';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { Crud, CrudController, CrudRequestInterceptor } from '@nestjsx/crud';
+import { Response } from 'express';
 import { Observable } from 'rxjs';
 import { Teachers } from 'src/entities/teachers.entity';
 import { Any } from 'typeorm';
+import { getTeacherDto } from './dto/teacher.dto';
 import { TeachersService } from './teachers.service';
 
 @Crud({
@@ -26,13 +28,18 @@ import { TeachersService } from './teachers.service';
 export class TeachersController implements CrudController<Teachers> {
   constructor(public service: TeachersService) {}
 
-  // @Get('/me')
   @UseInterceptors(CrudRequestInterceptor)
   @Get('/search')
   // FIXME: how to shorten @ApiQuery, what if users are let to query with 100 filter \O/
   @ApiQuery({ name: 'fullname', required: false })
   @ApiQuery({ name: 'teacher_id', required: false })
-  async find(@Query('') filter: string) {
+  @ApiOkResponse({
+    status: 200,
+    type: getTeacherDto,
+    isArray: true,
+    description: 'Found results',
+  })
+  async find(@Query('') filter: string): Promise<getTeacherDto[] | unknown[]> {
     const ret = await this.service.searchFor(filter);
     let normalisedResult = ret.flat();
 
