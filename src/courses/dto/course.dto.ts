@@ -7,7 +7,6 @@ export class createCourseDto {
 
   @ApiProperty()
   title: string;
-
 }
 
 export class updateCourseDto {
@@ -17,6 +16,7 @@ export class updateCourseDto {
   @ApiProperty()
   title: string;
 
-//   @Exclude()
-//   teacher_id: string;
+  //   FIXME:
+  @Exclude()
+  teacher_id: string;
 }
