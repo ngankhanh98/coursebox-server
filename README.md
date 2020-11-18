@@ -8,7 +8,7 @@ NestJS + mySQL
 
 ## 📐 ERD Diagram
 
-![](https://github.com/ngankhanh98/coursebox-server/blob/dev/docs/diagrams/erd/erd.v0.2.png?raw=true)
+![](https://github.com/ngankhanh98/coursebox-server/blob/dev/docs/diagrams/erd/erd.v0.3.png?raw=true)
 
 - Teachers:
   **A teacher** might have **n courses**.
