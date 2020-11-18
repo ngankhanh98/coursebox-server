@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 
 export class createCourseDto {
   @ApiProperty()
@@ -7,7 +7,6 @@ export class createCourseDto {
 
   @ApiProperty()
   title: string;
-
 }
 
 export class updateCourseDto {
@@ -17,6 +16,8 @@ export class updateCourseDto {
   @ApiProperty()
   title: string;
 
-//   @Exclude()
-//   teacher_id: string;
+  // FIXME: This should not appear in PATCH - /courses/{course_id}
+  @Exclude()
+  @ApiProperty()
+  teacher_id: string;
 }
