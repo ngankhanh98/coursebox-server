@@ -6,30 +6,33 @@ Find your next favorite course on Coursebox
 
 NestJS + mySQL
 
-
 ## 📐 ERD Diagram
 
-![](https://github.com/ngankhanh98/coursebox-server/blob/main/docs/erd.v0.2.png?raw=true)
+![](https://github.com/ngankhanh98/coursebox-server/blob/dev/docs/diagrams/erd/erd.v0.2.png?raw=true)
 
 - Teachers:
-**A teacher** might have **n courses**.
+  **A teacher** might have **n courses**.
 
 - Courses:
-**A course** is belong to **1 teacher**, have **n chapters**, classified to **n tags**
+  **A course** is belong to **1 teacher**, have **n chapters**, classified to **n tags**
 - Members:
-**A member** can join **0..n courses**
+  **A member** can join **0..n courses**
 
 ## ❄ API endpoint
+
 ### Teacher
+
 - [x] GET - /teachers
 - [x] GET - /teachers/{teacher_id}
 - [ ] GET - /teachers/me
 - [x] POST - /teachers ----> POST /auth/teachers/register
 - [x] PUT - /teachers/{teacher_id}
 - [x] PATCH - /teachers/{teacher_id}
-- [x] DELETE - /teachers/{teacher_id}   ----> POST /auth/teachers/deactive
+- [x] DELETE - /teachers/{teacher_id} ----> POST /auth/teachers/deactive
 - [x] GET - /teachers/search?{title(course), tag, fullname}
+
 ### Course
+
 - [x] GET - /courses
 - [x] GET - /courses/{course_id}
 - [ ] GET - /courses/search?{fullname(teacher), tag}
@@ -50,19 +53,27 @@ NestJS + mySQL
 - DELETE - /members/{member_id}
 
 ## Things to mind
+
 - [ ] Swagger with standard description
 - [ ] nestjsx/crud
 
-## How can this built? 
+## How can this built?
+
 and bugs with solutions
-### TypeORM 
-1. Install npm 
-```bash 
+
+### TypeORM
+
+1. Install npm
+
+```bash
 $ npm install --save typeorm mysql
 ```
+
 2. You can follow this [docs](https://docs.nestjs.com/recipes/sql-typeorm) to config the rest work to establish database connection
 3. Or you want to have separate configuration
+
 - Create `.env` with your connection string in root folder
+
 ```env
 DB_TYPE=mysql
 DB_HOST=localhost
@@ -71,7 +82,9 @@ DB_USERNAME=root
 DB_PASSWORD=root
 DB_DATABASE=coursebox
 ```
+
 - Create a configuration by `registerAs`, `configs/database.config.ts`
+
 ```ts
 import { registerAs } from '@nestjs/config';
 
@@ -83,11 +96,11 @@ export const localDBConfig = registerAs('localDB', () => ({
   password: process.env.DB_PASSWORD,
   database: process.env.DB_DATABASE,
 }));
-
 ```
 
 - Create `database/` with `database.module.ts` and `database.provider.ts`. `DatabaseProvider` should dynamically import `ConfigModule` which will load your `localDB` configuration.
-In `database.provider.ts`:
+  In `database.provider.ts`:
+
 ```ts
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
@@ -111,6 +124,7 @@ export const DatabaseProvider = TypeOrmModule.forRootAsync({
 ```
 
 In `database.provider.ts`:
+
 ```ts
 import { Module } from '@nestjs/common';
 import { Connection } from 'typeorm';
@@ -125,16 +139,22 @@ export class DatabaseModule {
 ```
 
 #### ⚠ Attention
+
 ```log
 [Nest] 1364   - 11/13/2020, 9:15:56 AM   [ExceptionHandler] No repory for "Teachers" was found. Looks like this entity is not regist in current "default" connection? +94ms
 ```
+
 **Solution**
 You need config hot reload properly
+
 - Install
+
 ```bash
 $ npm i --save-dev webpack-node-externals start-server-webpack-plugin webpack@4.44.1
 ```
+
 - Create `webpack-hmr.config.js` with the content:
+
 ```js
 const webpack = require('webpack');
 const nodeExternals = require('webpack-node-externals');
@@ -161,8 +181,8 @@ module.exports = function(options) {
 ```
 
 - To enable HMR, open the application entry file (main.ts) and add the following webpack-related instructions:
-```ts
 
+```ts
 declare const module: any;
 
 async function bootstrap() {
@@ -176,7 +196,9 @@ async function bootstrap() {
 }
 bootstrap();
 ```
+
 - Modify package.json
+
 ```json
 "start:dev": "nest build --webpack --webpackPath webpack-hmr.config.js"
 ```
@@ -186,11 +208,14 @@ You're good to go!
 😫 Webpack 5 doesn't compable to Nest's HMR, consider dowgrading Webpack (it's total a pain)
 
 #### ⚠ Attendtion
+
 ```log
 Repository not found
 ```
+
 **Solution**
 In database.provider.ts:
+
 ```ts
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
@@ -211,8 +236,8 @@ export const DatabaseProvider = TypeOrmModule.forRootAsync({
     };
   },
 });
-
 ```
 
 ## Nestjsx/crud
+
 Follow this [docs](https://github.com/nestjsx/crud/wiki/Controllers#install) and you would be fine
