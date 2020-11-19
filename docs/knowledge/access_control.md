@@ -106,4 +106,4 @@ Teacher(S) -----R,W----> Classifies(O) (in context of the course he created)
 ```
 ![](https://github.com/ngankhanh98/coursebox-server/blob/dev/docs/diagrams/access_control.png?raw=true)
 ![](https://github.com/ngankhanh98/coursebox-server/blob/dev/docs/diagrams/erd/erd.concept.png?raw=true)
-![](https://github.com/ngankhanh98/coursebox-server/blob/dev/docs/diagrams/erd/erd.v0.3.png?raw=true)
+![](https://github.com/ngankhanh98/coursebox-server/blob/dev/docs/diagrams/erd/erd.v0.4.png?raw=true)
