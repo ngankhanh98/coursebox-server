@@ -12,13 +12,6 @@ import { TeachersService } from './teachers.service';
   model: {
     type: Teachers,
   },
-  params: {
-    teacher_id: {
-      field: 'teacher_id',
-      type: 'string',
-      primary: true,
-    },
-  },
   routes: {
     exclude: ['createManyBase'],
   },
@@ -31,6 +24,7 @@ export class TeachersController implements CrudController<Teachers> {
   @UseInterceptors(CrudRequestInterceptor)
   @Get('/search')
   // FIXME: how to shorten @ApiQuery, what if users are let to query with 100 filter \O/
+  // SOLUTION: Swagger's filter
   @ApiQuery({ name: 'fullname', required: false })
   @ApiQuery({ name: 'teacher_id', required: false })
   @ApiOkResponse({
