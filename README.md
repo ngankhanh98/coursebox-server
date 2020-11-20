@@ -18,40 +18,6 @@ NestJS + mySQL
 - Members:
   **A member** can join **0..n courses**
 
-## ❄ API endpoint
-
-### Teacher
-
-- [x] GET - /teachers
-- [x] GET - /teachers/{teacher_id}
-- [ ] GET - /teachers/me
-- [x] POST - /teachers ----> POST /auth/teachers/register
-- [x] PUT - /teachers/{teacher_id}
-- [x] PATCH - /teachers/{teacher_id}
-- [x] DELETE - /teachers/{teacher_id} ----> POST /auth/teachers/deactive
-- [x] GET - /teachers/search?{title(course), tag, fullname}
-
-### Course
-
-- [x] GET - /courses
-- [x] GET - /courses/{course_id}
-- [ ] GET - /courses/search?{fullname(teacher), tag}
-- [x] POST - /courses ----> accessToken required, why? because only teacher can create his own courses
-- [x] PUT - /courses/{course_id}
-- [x] PATCH - /courses/{course_id}
-- [x] DELETE - /courses/{course_id}
-
-### Member
-
-- GET - /members
-- GET - /members/me
-- GET - /members/{member_id}
-- GET - /members/search?{fullname}
-- POST - /members
-- PUT - /members/{member_id}
-- PATCH - /members/{member_id}
-- DELETE - /members/{member_id}
-
 ## Things to mind
 
 - [ ] Swagger with standard description
