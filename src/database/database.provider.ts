@@ -1,8 +1,8 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import { localMySql, remoteMySql } from 'src/configs/database/mysql.config';
+import { Course } from 'src/entities/course.entity';
 // import { localDBConfig } from 'src/configs/database.config';
-import { Teachers } from '../entities/teachers.entity';
 
 export const DatabaseProvider = TypeOrmModule.forRootAsync({
   imports: [
@@ -16,9 +16,9 @@ export const DatabaseProvider = TypeOrmModule.forRootAsync({
     return {
       ...configService.get('localMySql'),
       // ...configService.get('remoteMySql'),
-      entities: [Teachers],
+      entities: [Course],
       keepConnectionAlive: true,
-      synchronize: true,
+      synchronize: false,
       autoLoadEntities: true,
     };
   },

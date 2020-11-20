@@ -3,21 +3,24 @@ import { Exclude, Expose } from 'class-transformer';
 
 export class createCourseDto {
   @ApiProperty()
-  course_id: string;
+  courseId: string;
 
   @ApiProperty()
   title: string;
 }
 
 export class updateCourseDto {
-  @ApiProperty()
-  course_id: string;
+  @Expose()
+  courseId: string;
 
   @ApiProperty()
   title: string;
+}
 
-  // FIXME: This should not appear in PATCH - /courses/{course_id}
-  @Exclude()
+export class getCourseDto {
   @ApiProperty()
-  teacher_id: string;
+  courseId: string;
+
+  @ApiProperty()
+  title: string;
 }

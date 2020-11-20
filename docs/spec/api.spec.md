@@ -32,15 +32,14 @@ As a teacher of a course, you are required to create a course. You can:
 
 
 ### Course
-
-- [x] GET - /courses (S1.1)
-- [x] GET - /courses/{courseId} (S1.1, S3.3)
-- [ ] GET - /courses/search?{name, tags, teacher} (S2.8)
-- [x] POST - /courses (S2.6)
-- [x] PUT - /courses/{courseId} (S4.4)
-- [x] PATCH - /courses/{courseId} (S4.4)
-- [x] DELETE - /courses/{courseId} (S4.2)
-- [ ] POST - /course/edit-tag (S4.1)
+- [x] GET - /course (S1.1)
+- [x] GET - /course/{courseId} (S1.1, S3.3)
+- [ ] GET - /course/search?{name, tags, teacher} (S2.8)
+- [x] POST - /course (S2.6)
+- [x] PUT - /course/{courseId} (S4.4)
+- [x] PATCH - /course/{courseId} (S4.4)
+- [x] DELETE - /course/{courseId} (S4.2)
+- [ ] POST - /course/edit-tag (S4.1) (attach to db.[tag])
 ### User
 - GET - /users/me (S2.3)
 - GET - /users/{S1.2}
@@ -52,6 +51,8 @@ As a teacher of a course, you are required to create a course. You can:
 ### Auth
 - POST - /auth/register (S2.1)
 - POST - /auth/login (S2.2.)
+- POST - /reset-password
+- GET - /forgot-password
 
 ### Participant
 - GET - /participant/{courseId} (S3.1)
