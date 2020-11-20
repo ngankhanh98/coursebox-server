@@ -67,7 +67,7 @@ export class UserController implements CrudController<User> {
   async getMe(@Request() req) {
     const username = req['user'];
     return plainToClass(
-      getUser,
+      getUserWithoutPassword,
       await this.service.findUserByUsername(username),
     );
   }
