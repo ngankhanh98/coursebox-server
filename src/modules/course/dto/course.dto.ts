@@ -1,16 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Expose } from 'class-transformer';
-
-export class createCourseDto {
-  @ApiProperty()
-  courseId: string;
-
-  @ApiProperty()
-  title: string;
-}
+import { Allow } from 'class-validator';
 
 export class updateCourseDto {
-  @Expose()
+  // @Expose()
+  // @Exclude()
+  // @Allow()
   courseId: string;
 
   @ApiProperty()
