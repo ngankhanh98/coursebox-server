@@ -21,7 +21,7 @@ It suggests that our high-level components should not depend on our low-level co
 
 For example, if I plan to implement a `PizzaFactory` class, I should not base or extend from a specific kind of Pizza, let say `PizzaMushroom`, but instend base all of them on an interface `Pizza`
 
-![](https://github.com/ngankhanh98/coursebox-server/blob/main/docs/dependency_inversion_img.png?raw=true)
+![](https://github.com/ngankhanh98/coursebox-server/blob/dev/docs/img/dependency_inversion_img.png?raw=true)
 
 _"The “inversion” in the name Dependency Inversion
 Principle is there because it inverts the way you

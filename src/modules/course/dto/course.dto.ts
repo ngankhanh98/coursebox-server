@@ -1,22 +1,26 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Exclude } from 'class-transformer';
+import { Exclude, Expose } from 'class-transformer';
 
 export class createCourseDto {
   @ApiProperty()
-  course_id: string;
+  courseId: string;
 
   @ApiProperty()
   title: string;
 }
 
 export class updateCourseDto {
-  @ApiProperty()
-  course_id: string;
+  @Expose()
+  courseId: string;
 
   @ApiProperty()
   title: string;
+}
 
-  //   FIXME:
-  @Exclude()
-  teacher_id: string;
+export class getCourseDto {
+  @ApiProperty()
+  courseId: string;
+
+  @ApiProperty()
+  title: string;
 }
