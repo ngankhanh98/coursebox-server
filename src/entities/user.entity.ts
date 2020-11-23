@@ -21,10 +21,6 @@ export class User {
   @Column()
   password: string;
 
-  @Index({ fulltext: true })
-  @Column()
-  fullname: string;
-
   @ManyToMany(() => Course)
   @JoinTable()
   courses: Course[];

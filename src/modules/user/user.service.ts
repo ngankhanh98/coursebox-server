@@ -30,9 +30,6 @@ export class UserService extends TypeOrmCrudService<User> {
 
   public async findUserByUsername(username: string) {
     const result = await this.userRepository.findOne({ username: username });
-    if (!result) {
-      throw new NotFoundException();
-    }
     return result;
   }
 
@@ -47,6 +44,9 @@ export class UserService extends TypeOrmCrudService<User> {
 
   public async updateOneUser(username: string, user: updateUser) {
     const oldUser = await this.findUserByUsername(username);
+    if (!oldUser.length) {
+      throw new NotFoundException();
+    }
     const newPwd = hash(user?.password);
 
     const newUser = user?.password
@@ -57,7 +57,10 @@ export class UserService extends TypeOrmCrudService<User> {
 
   public async deleteOneUser(username: string): Promise<void | User> {
     console.log('username', username);
-    await this.findUserByUsername(username);
+    const result = await this.findUserByUsername(username);
+    if (!result) {
+      throw new NotFoundException();
+    }
     return await this.userRepository.delete({ username: username });
   }
 
