@@ -8,6 +8,8 @@ import { JwtStrategy } from '../auth/strategies/jwt.strategy';
 import { User } from 'src/entities/user.entity';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
+import { CourseModule } from '../course/course.module';
+import { ParticipantModule } from '../participant/participant.module';
 
 @Module({
   imports: [
@@ -21,6 +23,7 @@ import { UserService } from './user.service';
     }),
     PassportModule.register({ defaultStrategy: 'auth' }),
     Logger,
+    CourseModule, ParticipantModule
   ],
   providers: [UserService, JwtStrategy],
   exports: [UserService],

@@ -3,16 +3,18 @@ import { ConfigModule } from '@nestjs/config';
 import { DatabaseModule } from './database/database.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { CourseController } from './modules/course/course.controller';
-import { CoursesModule } from './modules/course/course.module';
+import { CourseModule } from './modules/course/course.module';
 import { UserModule } from './modules/user/user.module';
+import { ParticipantModule } from './modules/participant/participant.module';
 
 @Module({
   imports: [
     DatabaseModule,
     ConfigModule.forRoot(),
-    CoursesModule,
+    CourseModule,
     AuthModule,
     UserModule,
+    ParticipantModule,
   ],
   controllers: [CourseController],
 })

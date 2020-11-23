@@ -1,6 +1,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Patch,
   Post,
@@ -10,10 +11,11 @@ import {
   UseInterceptors,
 } from '@nestjs/common';
 import {
-  ApiBody,
   ApiHeader,
   ApiOkResponse,
-  ApiResponse,
+  ApiProduces,
+  ApiProperty,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import {
@@ -21,25 +23,22 @@ import {
   CrudController,
   CrudRequest,
   CrudRequestInterceptor,
+  GetManyDefaultResponse,
   Override,
-  ParsedBody,
 } from '@nestjsx/crud';
-import { plainToClass } from 'class-transformer';
-import { User } from 'src/entities/user.entity';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
-import { getUser, getUserWithoutPassword, updateUser } from './dto/user.dto';
+import { Course } from 'src/entities/course.entity';
+import { User } from 'src/entities/user.entity';
+import { getUserBase, updateUser } from './dto/user.dto';
 import { UserService } from './user.service';
-import { DatabaseProvider } from 'src/database/database.provider';
-import { hash } from 'src/common/utils';
 
 @ApiTags('User')
-@UseGuards(JwtAuthGuard)
 @Crud({
   model: {
-    type: User,
+    type: getUserBase,
   },
   routes: {
-    only: ['getManyBase', 'deleteOneBase', 'getOneBase'],
+    only: ['getManyBase', 'getOneBase'],
   },
   params: {
     username: {
@@ -49,38 +48,65 @@ import { hash } from 'src/common/utils';
     },
   },
   serialize: {
-    get: getUserWithoutPassword,
-    update: getUserWithoutPassword,
+    get: getUserBase,
+    update: getUserBase,
   },
-})
-@ApiHeader({
-  name: 'access-token',
 })
 @Controller('user')
 export class UserController implements CrudController<User> {
   constructor(public service: UserService) {}
 
+  @UseGuards(JwtAuthGuard)
   @UseInterceptors(CrudRequestInterceptor)
   @ApiOkResponse({
     status: 200,
-    type: getUserWithoutPassword,
+    type: getUserBase,
     description: 'Retrive my user information',
+  })
+  @ApiHeader({
+    name: 'access-token',
   })
   @Get('/me')
   async getMe(@Request() req) {
-    const username = req['user'];
-    return plainToClass(
-      getUserWithoutPassword,
-      await this.service.findUserByUsername(username),
-    );
+    console.log('req', req['user']);
+    return await this.service.findUserByUsername(req['user']);
   }
 
   get base(): CrudController<User> {
     return this;
   }
 
+  @UseGuards(JwtAuthGuard)
+  @ApiOkResponse({
+    type: getUserBase,
+  })
+  @ApiHeader({
+    name: 'access-token',
+  })
   @Patch('/')
   updateOneUser(@Req() req, @Body() dto: updateUser) {
     return this.service.updateOneUser(req['user'], dto);
+  }
+
+  @Override()
+  getManyBase(req: CrudRequest) {
+    return this.base.getManyBase(req);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiHeader({
+    name: 'access-token',
+  })
+  @Delete('/')
+  deleteOneUser(@Req() req) {
+    return this.service.deleteOneUser(req['user']);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @ApiHeader({ name: 'access-token' })
+  @ApiQuery({ name: 'courseId', required: true })
+  @Post('/enroll')
+  enrollCourse(@Req() req) {
+    return this.service.enrollCourse(req['user'], req.query['courseId']);
   }
 }

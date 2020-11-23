@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Exclude, Expose } from 'class-transformer';
+import { Course } from 'src/entities/course.entity';
 
 export class getUser {
   @ApiProperty()
@@ -12,16 +13,16 @@ export class getUser {
   password: string;
 }
 
-export class getUserWithoutPassword {
+export class getUserBase {
   @ApiProperty()
   userId: string;
 
   @ApiProperty()
   username: string;
 
-  // @Exclude()
-  // @Expose()
-  // password: string;
+  @ApiProperty()
+  @Exclude()
+  password: string;
 }
 
 export class updateUser {

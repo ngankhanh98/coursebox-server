@@ -10,4 +10,4 @@ import { CourseController } from './course.controller';
   exports: [CourseService],
   controllers: [CourseController],
 })
-export class CoursesModule {}
+export class CourseModule {}
