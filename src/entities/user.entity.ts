@@ -6,6 +6,7 @@ import {
   Column,
   ManyToMany,
   JoinTable,
+  Index,
 } from 'typeorm';
 import { Course } from './course.entity';
 
@@ -19,6 +20,10 @@ export class User {
 
   @Column()
   password: string;
+
+  @Index({ fulltext: true })
+  @Column()
+  fullname: string;
 
   @ManyToMany(() => Course)
   @JoinTable()

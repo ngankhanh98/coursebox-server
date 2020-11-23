@@ -7,7 +7,13 @@ import {
   Request,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOkResponse,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import {
   Crud,
   CrudController,
@@ -35,7 +41,14 @@ import { getCourseDto, updateCourseDto } from './dto/course.dto';
     },
   },
   routes: {
-    exclude: ['createManyBase'],
+    // exclude: ['createManyBase'],
+    only: [
+      'updateOneBase',
+      'getOneBase',
+      'replaceOneBase',
+      'deleteOneBase',
+      'getManyBase',
+    ],
   },
   serialize: {
     create: updateCourseDto,
@@ -56,47 +69,26 @@ export class CourseController implements CrudController<Course> {
     return this.base.updateOneBase(req, dto);
   }
 
-  // @Override()
-  // createOneBase(
-  //   @ParsedRequest() req: CrudRequest,
-  //   @ParsedBody() dto: updateCourseDto,
-  // ):any {
-  //   console.log('Call');
-  //   const course = new Course();
-  //   // course.title = dto.title;
-  //   // course.courseId = generateId(course.title + new Date().toUTCString());
-  //   return 'this.base.createOneBase(req, course);'
-  // }
-
-
-  // FIXME: No metadata found. There is more than once class-validator version installed proon installed probably. You need to flatten your dependencies.   
-  @UseInterceptors(CrudRequestInterceptor)
-  @Post('/course')
+  @Post('/')
+  @ApiOperation({ summary: 'Create a course' })
+  @ApiBody({ type: Course })
   async createOneCourse(
-    @Req() body: updateCourseDto,
+    @Req() req: updateCourseDto,
   ): Promise<Course | unknown> {
-    return await this.service.createCourse(body);
-    // // TODO: need more work
-    // console.log('filters', filters);
-    // return;
+    return await this.service.createCourse(req['body']);
   }
 
   @UseInterceptors(CrudRequestInterceptor)
   @Get('/search')
   @ApiQuery({ name: 'title', required: false })
-  @ApiQuery({ name: 'tags', required: false })
-  @ApiQuery({ name: 'teacher', required: false })
+  @ApiOperation({ summary: 'Search course' })
   @ApiOkResponse({
     status: 200,
     type: getCourseDto,
     isArray: true,
     description: 'Found results',
   })
-  async find(@Query() filters: string): Promise<getCourseDto[] | unknown[]> {
-    // TODO: need more work
-    console.log('filters', filters);
-    return;
+  async find(@Query('') filters): Promise<getCourseDto[] | unknown[]> {
+    return this.service.findByFilter(filters)
   }
-
-  // FIXME: POST - /course allow create a duplicating course
 }
