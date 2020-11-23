@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { generateId } from 'src/common/utils';
@@ -21,5 +21,15 @@ export class CourseService extends TypeOrmCrudService<Course> {
     // const course = { ...dto, ...courseId };
     // console.log('course', course);
     return this.repo.save(course);
+  }
+
+  public async findCourseById(courseId: string) {
+    const result = await this.repo.findOne({ courseId: courseId });
+
+    if (!result) {
+      throw new NotFoundException();
+    }
+
+    return result;
   }
 }

@@ -1,17 +1,26 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { CourseModule } from 'src/modules/course/course.module';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
+import { Course } from './course.entity';
 
 @Entity()
 export class User {
-  //   @ApiProperty()
   @PrimaryGeneratedColumn()
   userId: string;
 
-  @ApiProperty()
   @Column()
   username: string;
 
-  //   @ApiProperty()
   @Column()
   password: string;
+
+  @ManyToMany(() => Course)
+  @JoinTable()
+  courses: Course[];
 }

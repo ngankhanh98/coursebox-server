@@ -1,0 +1,3 @@
+1. PATCH - ​/v1​/user​/{username} - Update one User - when updateing password, password should be hash 
+2. PATCH - ​/v1​/user​/{username} - Update one User - Swagger description
+3. 
