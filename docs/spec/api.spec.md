@@ -55,8 +55,8 @@ As a teacher of a course, you are required to create a course. You can:
 - [x] GET - /forgot-password
 
 ### Participant
-- [ ] GET - /participant/{courseId} (S3.1)
-- [ ] DELETE - /participant/{courseId}/{username/userId} (S4.3)
+- [x] GET - /participant/{courseId} (S3.1)
+- [ ] DELETE - /participant/{courseId}/{username/userId} (S4.3, 4.2)
 
 ### Chapter
 - [ ] GET - /course/chapter/{chapterId} (S4.5)
