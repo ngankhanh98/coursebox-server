@@ -41,13 +41,13 @@ As a teacher of a course, you are required to create a course. You can:
 - [x] DELETE - /course/{courseId} (S4.2)
 - [ ] POST - /course/edit-tag (S4.1) (attach to db.[tag])
 ### User
-- [x] GET - /users/me (S2.3)
-- [ ] GET - /users/{S1.2}
-- [ ] GET - /users/search?{role, username} (S2.9)
-- [x] PUT - /users/{userId} (S2.4)
-- [x] PATCH - /users/{userId} (S2.4)
-- [x] DELETE - /users/{member_id} (S2.7)
-- [ ] POST - /user/unenroll (S3.2) (attach db.[role])
+- [x] GET - /users/me (S2.3) (accessToken, user )
+- [x] GET - /users/{S1.2} (-)
+- [ ] GET - /users/search?{role, username} (S2.9) (-)
+- [x] PUT - /users/{username} (S2.4) (accessToken, user)
+- [x] PATCH - /users/{username} (S2.4) (accessToken, user)
+- [x] DELETE - /users/{username} (S2.7) (accessToken, user)
+- [x] POST - /user/unenroll (S3.2) (attach db.[role]) (accessToken, user)
 ### Auth
 - [x] POST - /auth/register (S2.1)
 - [x] POST - /auth/login (S2.2.)
@@ -55,8 +55,8 @@ As a teacher of a course, you are required to create a course. You can:
 - [x] GET - /forgot-password
 
 ### Participant
-- [ ] GET - /participant/{courseId} (S3.1)
-- [ ] DELETE - /participant/{courseId}/{username/userId} (S4.3)
+- [x] GET - /participant/{courseId} (S3.1)
+- [x] DELETE - /participant/{courseId}/{username/userId} (S4.3, 4.2)
 
 ### Chapter
 - [ ] GET - /course/chapter/{chapterId} (S4.5)

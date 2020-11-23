@@ -1,12 +1,19 @@
 import {
   Controller,
   Get,
+  Post,
   Query,
   Req,
   Request,
   UseInterceptors,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiQuery, ApiTags } from '@nestjs/swagger';
+import {
+  ApiBody,
+  ApiOkResponse,
+  ApiOperation,
+  ApiQuery,
+  ApiTags,
+} from '@nestjs/swagger';
 import {
   Crud,
   CrudController,
@@ -17,13 +24,10 @@ import {
   ParsedBody,
   ParsedRequest,
 } from '@nestjsx/crud';
+import { generateId } from 'src/common/utils';
 import { Course } from 'src/entities/course.entity';
 import { CourseService } from './course.service';
-import {
-  createCourseDto,
-  getCourseDto,
-  updateCourseDto,
-} from './dto/course.dto';
+import { getCourseDto, updateCourseDto } from './dto/course.dto';
 
 @Crud({
   model: {
@@ -37,11 +41,18 @@ import {
     },
   },
   routes: {
-    exclude: ['createManyBase'],
+    // exclude: ['createManyBase'],
+    only: [
+      'updateOneBase',
+      'getOneBase',
+      'replaceOneBase',
+      'deleteOneBase',
+      'getManyBase',
+    ],
   },
   serialize: {
-    create: createCourseDto,
-    update: createCourseDto,
+    create: updateCourseDto,
+    update: updateCourseDto,
   },
 })
 @ApiTags('Course')
@@ -58,23 +69,26 @@ export class CourseController implements CrudController<Course> {
     return this.base.updateOneBase(req, dto);
   }
 
+  @Post('/')
+  @ApiOperation({ summary: 'Create a course' })
+  @ApiBody({ type: Course })
+  async createOneCourse(
+    @Req() req: updateCourseDto,
+  ): Promise<Course | unknown> {
+    return await this.service.createCourse(req['body']);
+  }
+
   @UseInterceptors(CrudRequestInterceptor)
   @Get('/search')
   @ApiQuery({ name: 'title', required: false })
-  @ApiQuery({ name: 'tags', required: false })
-  @ApiQuery({ name: 'teacher', required: false })
+  @ApiOperation({ summary: 'Search course' })
   @ApiOkResponse({
     status: 200,
     type: getCourseDto,
     isArray: true,
     description: 'Found results',
   })
-  async find(@Query() filters: string): Promise<getCourseDto[] | unknown[]> {
-    // TODO: need more work
-    console.log('filters', filters)
-    return 
+  async find(@Query('') filters): Promise<getCourseDto[] | unknown[]> {
+    return this.service.findByFilter(filters)
   }
-
-  // FIXME: POST - /course allow create a duplicating course
-  
 }
