@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Participant } from 'src/entities/participant.entity';
 
@@ -8,6 +12,12 @@ export class ParticipantService {
     @InjectRepository(Participant) private readonly participantRepository,
   ) {}
 
+  async findByCourseIdAndUserId(courseId: string, userId: string) {
+    return this.participantRepository.find({
+      courseId: courseId,
+      userId: userId,
+    });
+  }
   async addEntry(entry: Participant) {
     return await this.participantRepository.save(entry);
   }
@@ -17,5 +27,12 @@ export class ParticipantService {
       courseId: courseId,
     });
     return result;
+  }
+
+  async removeEntry(userId: string, courseId: string) {
+    return await this.participantRepository.delete({
+      userId: userId,
+      courseId: courseId,
+    });
   }
 }
