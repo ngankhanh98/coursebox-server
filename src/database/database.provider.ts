@@ -1,13 +1,13 @@
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { remoteMySql } from 'src/configs/database/mysql.config';
+import { localMySql, remoteMySql } from 'src/configs/database/mysql.config';
 // import { localDBConfig } from 'src/configs/database.config';
 
 export const DatabaseProvider = TypeOrmModule.forRootAsync({
   imports: [
     ConfigModule.forRoot({
-      // load: [localMySql],
-      load: [remoteMySql],
+      load: [localMySql],
+      // load: [remoteMySql],
     }),
   ],
   inject: [ConfigService],
