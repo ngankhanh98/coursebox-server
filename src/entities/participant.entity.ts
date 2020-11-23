@@ -1,13 +1,13 @@
-import { Entity, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Participant {
   @PrimaryColumn()
   courseId: string;
 
-  @PrimaryColumn()
+  @Column()
   userId: string;
 
-  @PrimaryColumn()
+  @Column()
   roleId: string;
 }

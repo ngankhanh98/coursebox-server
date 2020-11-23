@@ -11,4 +11,11 @@ export class ParticipantService {
   async addEntry(entry: Participant) {
     return await this.participantRepository.save(entry);
   }
+
+  async getParticipantByCourseId(courseId: string) {
+    const result = await this.participantRepository.find({
+      courseId: courseId,
+    });
+    return result;
+  }
 }
