@@ -14,12 +14,10 @@ export class CourseService extends TypeOrmCrudService<Course> {
   createCourse(dto: updateCourseDto): Promise<Course> {
     const course = new Course();
     course.title = dto.title;
-    course.courseId = generateId(course.title + new Date().toUTCString());
-
-    // const timestamp = new Date().toUTCString();
-    // const courseId = generateId(`${dto.title}-${timestamp}`);
-    // const course = { ...dto, ...courseId };
-    // console.log('course', course);
+    course.courseId = generateId(course.title + new Date().toUTCString()).slice(
+      0,
+      9,
+    );
     return this.repo.save(course);
   }
 
@@ -29,7 +27,32 @@ export class CourseService extends TypeOrmCrudService<Course> {
     if (!result) {
       throw new NotFoundException();
     }
-
     return result;
+  }
+
+  findByFilter(filters: any) {
+    const keys = Object.keys(filters);
+    const values = Object.values(filters);
+
+    // FIXME: Can't find FULLTEXT index matching the column list
+    const promises = keys.map(
+      (key, index) =>
+        new Promise(resolve => {
+          resolve(
+            this.repo
+              .createQueryBuilder()
+              .select()
+              .where(
+                `MATCH(${key}) AGAINST ('${values[index]}' IN BOOLEAN MODE)`,
+              )
+              .getMany(),
+          );
+        }),
+    );
+
+    return Promise.all(promises).then(value => {
+      console.log(value);
+      return value;
+    });
   }
 }

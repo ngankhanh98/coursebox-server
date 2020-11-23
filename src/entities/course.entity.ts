@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm';
 
 @Entity()
 export class Course {
@@ -8,6 +8,7 @@ export class Course {
   courseId: string;
 
   @ApiProperty()
+  @Index({ fulltext: true })
   @Column()
   title: string;
 }
