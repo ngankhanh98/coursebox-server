@@ -3,7 +3,7 @@ import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class User {
-  //   @ApiProperty()
+  @ApiProperty()
   @PrimaryGeneratedColumn()
   userId: string;
 
@@ -11,7 +11,7 @@ export class User {
   @Column()
   username: string;
 
-  //   @ApiProperty()
+  @ApiProperty()
   @Column()
   password: string;
 }

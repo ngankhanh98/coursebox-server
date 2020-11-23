@@ -19,7 +19,20 @@ export class getUserWithoutPassword {
   @ApiProperty()
   username: string;
 
+  // @Exclude()
+  // @Expose()
+  // password: string;
+}
+
+export class updateUser {
   @Exclude()
   @Expose()
+  userId: string;
+
+  @Exclude()
+  @Expose()
+  username: string;
+
+  @ApiProperty()
   password: string;
 }

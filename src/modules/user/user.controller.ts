@@ -1,11 +1,16 @@
 import {
+  Body,
   Controller,
   Get,
+  Patch,
+  Post,
+  Req,
   Request,
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
 import {
+  ApiBody,
   ApiHeader,
   ApiOkResponse,
   ApiResponse,
@@ -17,12 +22,15 @@ import {
   CrudRequest,
   CrudRequestInterceptor,
   Override,
+  ParsedBody,
 } from '@nestjsx/crud';
 import { plainToClass } from 'class-transformer';
 import { User } from 'src/entities/user.entity';
 import { JwtAuthGuard } from 'src/common/guards/jwt-auth.guard';
-import { getUser, getUserWithoutPassword } from './dto/user.dto';
+import { getUser, getUserWithoutPassword, updateUser } from './dto/user.dto';
 import { UserService } from './user.service';
+import { DatabaseProvider } from 'src/database/database.provider';
+import { hash } from 'src/common/utils';
 
 @ApiTags('User')
 @UseGuards(JwtAuthGuard)
@@ -31,12 +39,7 @@ import { UserService } from './user.service';
     type: User,
   },
   routes: {
-    exclude: [
-      'createOneBase',
-      'createManyBase',
-      'getManyBase',
-      'replaceOneBase',
-    ],
+    only: ['getManyBase', 'deleteOneBase', 'getOneBase'],
   },
   params: {
     username: {
@@ -76,12 +79,8 @@ export class UserController implements CrudController<User> {
     return this;
   }
 
-  @Override()
-  async updateOneBase(
-    req: CrudRequest,
-    dto: getUserWithoutPassword,
-  ): Promise<getUserWithoutPassword> {
-    const result = await this.base.updateOneBase(req, dto);
-    return plainToClass(getUserWithoutPassword, result);
+  @Patch('/')
+  updateOneUser(@Req() req, @Body() dto: updateUser) {
+    return this.service.updateOneUser(req['user'], dto);
   }
 }
