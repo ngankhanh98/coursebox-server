@@ -6,8 +6,11 @@ import {
   Index,
   ManyToMany,
   PrimaryColumn,
+  ManyToOne,
+  OneToMany,
 } from 'typeorm';
 import { User } from './user.entity';
+import { UserCoursesCourse } from './user_courses_course.entity';
 
 @Entity()
 export class Course {

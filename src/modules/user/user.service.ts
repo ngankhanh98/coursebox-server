@@ -66,7 +66,9 @@ export class UserService extends TypeOrmCrudService<User> {
 
       const course = await this.courseService.findCourseById(courseId);
 
-      user = { ...user, courses: [course] };
+      // FIXME: cannot insert roleId
+      // At this time, enroll -> roleId auto 'member'
+      user = { ...user, courses: [{ ...course }] };
 
       return await this.userRepository.save(user);
     } catch (error) {

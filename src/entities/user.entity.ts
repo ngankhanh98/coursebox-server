@@ -30,8 +30,17 @@ export class User {
   @ManyToMany(
     () => Course,
     course => course.users,
-    { cascade: ['update'] },
   )
-  @JoinTable()
+  @JoinTable({
+    name: 'user_courses_course',
+    joinColumn: {
+      name: 'userId',
+      referencedColumnName: 'userId',
+    },
+    inverseJoinColumn: {
+      name: 'courseId',
+      referencedColumnName: 'courseId',
+    },
+  })
   courses: Course[];
 }
