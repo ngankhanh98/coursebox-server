@@ -49,7 +49,7 @@ export class AuthService {
     );
     if (!existedUser)
       try {
-        newUser.userId = generateId(username); // username unique --> userId unique
+        newUser.userId = generateId(username).slice(0, 9); // username unique --> userId unique
         console.log('newUser.userId', newUser.userId);
         newUser.password = hash(password);
         newUser.username = username;

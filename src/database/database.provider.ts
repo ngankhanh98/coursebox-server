@@ -20,7 +20,8 @@ export const DatabaseProvider = TypeOrmModule.forRootAsync({
       // ...configService.get('remoteMySql'),
       entities: [Course, Participant, User],
       keepConnectionAlive: true,
-      synchronize: false,
+      // synchronize: false,
+      synchronize: true,
       autoLoadEntities: true,
     };
   },

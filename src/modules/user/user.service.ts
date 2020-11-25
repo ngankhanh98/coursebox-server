@@ -29,11 +29,7 @@ export class UserService extends TypeOrmCrudService<User> {
   private readonly logger = new Logger(UserService.name);
 
   public async findUserByUsername(username: string) {
-    const result = await this.userRepository.findOne({ username: username });
-    if (!result) {
-      throw new NotFoundException();
-    }
-    return result;
+    return await this.userRepository.findOne({ username: username });
   }
 
   public async getAccessToken(user: any) {
@@ -47,6 +43,7 @@ export class UserService extends TypeOrmCrudService<User> {
 
   public async updateOneUser(username: string, user: updateUser) {
     const oldUser = await this.findUserByUsername(username);
+    if (!oldUser) throw new NotFoundException();
     const newPwd = hash(user?.password);
 
     const newUser = user?.password
@@ -57,23 +54,28 @@ export class UserService extends TypeOrmCrudService<User> {
 
   public async deleteOneUser(username: string): Promise<void | User> {
     console.log('username', username);
-    await this.findUserByUsername(username);
+    const oldUser = await this.findUserByUsername(username);
+    if (!oldUser) throw new NotFoundException();
     return await this.userRepository.delete({ username: username });
   }
 
   async enrollCourse(username: string, courseId: string) {
     const user = await this.findUserByUsername(username);
+    if (!user) throw new NotFoundException();
     const course = await this.courseService.findCourseById(courseId);
     user.course = course;
     try {
-      this.participantService.addEntry({
-        courseId: courseId,
-        roleId: 'member',
-        userId: user.userId,
-      });
+      // this.participantService.addEntry({
+      //   courseId: courseId,
+      //   roleId: 'member',
+      //   userId: user.userId,
+      // });
+
+      console.log('user', user)
+      user.courses = [course];
       return await this.userRepository.save(user);
     } catch (error) {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(error);
     }
   }
 

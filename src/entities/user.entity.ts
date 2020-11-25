@@ -29,4 +29,5 @@ export class User {
   @ManyToMany(() => Course, course => course.users)
   @JoinTable()
   courses: Course[];
+
 }
