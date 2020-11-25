@@ -61,18 +61,13 @@ export class UserService extends TypeOrmCrudService<User> {
 
   async enrollCourse(username: string, courseId: string) {
     try {
-      const user = await this.findUserByUsername(username);
+      let user = await this.findUserByUsername(username);
       if (!user) throw new NotFoundException();
+
       const course = await this.courseService.findCourseById(courseId);
 
-      // this.participantService.addEntry({
-      //   courseId: courseId,
-      //   roleId: 'member',
-      //   userId: user.userId,
-      // });
+      user = { ...user, courses: [course] };
 
-      user.courses = [course];
-      console.log('user', user);
       return await this.userRepository.save(user);
     } catch (error) {
       throw new InternalServerErrorException(error);
@@ -103,11 +98,4 @@ export class UserService extends TypeOrmCrudService<User> {
       return value;
     });
   }
-
-  // async findCourseByUser() {
-  //   const categoriesWithQuestions = this.repo
-  //     .createQueryBuilder('course')
-  //     .leftJoinAndSelect('course.courseId', 'courseId')
-  //     .getMany();
-  // }
 }

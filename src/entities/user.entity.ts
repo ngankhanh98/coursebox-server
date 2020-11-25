@@ -30,6 +30,7 @@ export class User {
   @ManyToMany(
     () => Course,
     course => course.users,
+    { cascade: ['update'] },
   )
   @JoinTable()
   courses: Course[];
