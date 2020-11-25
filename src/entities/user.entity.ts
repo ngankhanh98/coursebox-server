@@ -8,12 +8,13 @@ import {
   ManyToMany,
   JoinTable,
   Index,
+  PrimaryColumn,
 } from 'typeorm';
 import { Course } from './course.entity';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   userId: string;
 
   @Column()
@@ -26,8 +27,10 @@ export class User {
   @Column()
   fullname: string;
 
-  @ManyToMany(() => Course, course => course.users)
+  @ManyToMany(
+    () => Course,
+    course => course.users,
+  )
   @JoinTable()
   courses: Course[];
-
 }

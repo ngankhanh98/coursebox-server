@@ -5,13 +5,14 @@ import {
   Column,
   Index,
   ManyToMany,
+  PrimaryColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 
 @Entity()
 export class Course {
   // @ApiProperty()
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   courseId: string;
 
   @ApiProperty()

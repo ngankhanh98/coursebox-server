@@ -60,19 +60,19 @@ export class UserService extends TypeOrmCrudService<User> {
   }
 
   async enrollCourse(username: string, courseId: string) {
-    const user = await this.findUserByUsername(username);
-    if (!user) throw new NotFoundException();
-    const course = await this.courseService.findCourseById(courseId);
-    user.course = course;
     try {
+      const user = await this.findUserByUsername(username);
+      if (!user) throw new NotFoundException();
+      const course = await this.courseService.findCourseById(courseId);
+
       // this.participantService.addEntry({
       //   courseId: courseId,
       //   roleId: 'member',
       //   userId: user.userId,
       // });
 
-      console.log('user', user)
       user.courses = [course];
+      console.log('user', user);
       return await this.userRepository.save(user);
     } catch (error) {
       throw new InternalServerErrorException(error);
