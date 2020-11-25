@@ -14,7 +14,6 @@ import { updateCourseDto } from './dto/course.dto';
 export class CourseService extends TypeOrmCrudService<Course> {
   constructor(
     @InjectRepository(Course) repo,
-    @InjectRepository(Participant) private participantRepo,
   ) {
     super(repo);
   }
