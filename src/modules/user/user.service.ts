@@ -76,4 +76,36 @@ export class UserService extends TypeOrmCrudService<User> {
       throw new InternalServerErrorException();
     }
   }
+
+  async findByFilter(filters: any) {
+    const keys = Object.keys(filters);
+    const values = Object.values(filters);
+
+    const promises = keys.map(
+      (key, index) =>
+        new Promise(resolve => {
+          resolve(
+            this.repo
+              .createQueryBuilder()
+              .select()
+              .where(
+                `MATCH (${key}) AGAINST ('${values[index]}' IN BOOLEAN MODE)`,
+              )
+              .getMany(),
+          );
+        }),
+    );
+
+    return Promise.all(promises).then(value => {
+      console.log(value);
+      return value;
+    });
+  }
+
+  // async findCourseByUser() {
+  //   const categoriesWithQuestions = this.repo
+  //     .createQueryBuilder('course')
+  //     .leftJoinAndSelect('course.courseId', 'courseId')
+  //     .getMany();
+  // }
 }

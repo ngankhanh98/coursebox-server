@@ -81,6 +81,7 @@ export class CourseController implements CrudController<Course> {
   @UseInterceptors(CrudRequestInterceptor)
   @Get('/search')
   @ApiQuery({ name: 'title', required: false })
+  @ApiQuery({ name: 'teacher', required: false })
   @ApiOperation({ summary: 'Search course' })
   @ApiOkResponse({
     status: 200,

@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { userInfo } from 'os';
 import { CourseModule } from 'src/modules/course/course.module';
 import {
   Entity,
@@ -25,7 +26,7 @@ export class User {
   @Column()
   fullname: string;
 
-  @ManyToMany(() => Course)
+  @ManyToMany(() => Course, course => course.users)
   @JoinTable()
   courses: Course[];
 }
