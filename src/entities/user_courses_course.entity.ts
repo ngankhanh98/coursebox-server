@@ -1,6 +1,5 @@
-import { Column, Entity, ManyToMany, ManyToOne, PrimaryColumn } from 'typeorm';
-import { Course } from './course.entity';
-import { User } from './user.entity';
+import { DefaultValuePipe } from '@nestjs/common';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity('user_courses_course')
 export class UserCoursesCourse {
@@ -10,6 +9,8 @@ export class UserCoursesCourse {
   @PrimaryColumn()
   courseId: number;
 
-  @Column()
+  @Column({
+    default: 'member',
+  })
   roleId: string;
 }
