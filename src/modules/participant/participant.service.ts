@@ -13,15 +13,15 @@ export class ParticipantService {
     @InjectRepository(UserCoursesCourse) private readonly participantRepository,
   ) {}
 
-  async findByCourseIdAndUserId(courseId: string, userId: string) {
-    return this.participantRepository.find({
-      courseId: courseId,
-      userId: userId,
-    });
-  }
-  async addEntry(entry: Participant) {
-    return await this.participantRepository.save(entry);
-  }
+  // async findByCourseIdAndUserId(courseId: string, userId: string) {
+  //   return this.participantRepository.find({
+  //     courseId: courseId,
+  //     userId: userId,
+  //   });
+  // }
+  // async addEntry(entry: Participant) {
+  //   return await this.participantRepository.save(entry);
+  // }
 
   async getParticipantByCourseId(courseId: string) {
     const result = await this.participantRepository.find({
