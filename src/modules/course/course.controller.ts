@@ -6,8 +6,8 @@ import {
   Post,
   Query,
   Req,
-  Request,
-  UseInterceptors,
+
+  UseInterceptors
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -15,19 +15,15 @@ import {
   ApiOperation,
   ApiParam,
   ApiQuery,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
 import {
   Crud,
   CrudController,
   CrudRequest,
   CrudRequestInterceptor,
-  GetManyDefaultResponse,
-  Override,
-  ParsedBody,
-  ParsedRequest,
+  Override
 } from '@nestjsx/crud';
-import { generateId } from 'src/common/utils';
 import { Course } from 'src/entities/course.entity';
 import { ParticipantService } from '../participant/participant.service';
 import { CourseService } from './course.service';
