@@ -1,13 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { resolve } from 'path';
 import { generateId } from 'src/common/utils';
-import { DatabaseModule } from 'src/database/database.module';
 import { Course } from 'src/entities/course.entity';
-import { Participant } from 'src/entities/participant.entity';
-import { User } from 'src/entities/user.entity';
-import { UserService } from '../user/user.service';
 import { updateCourseDto } from './dto/course.dto';
 
 @Injectable()

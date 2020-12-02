@@ -4,7 +4,6 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Participant } from 'src/entities/participant.entity';
 import { UserCoursesCourse } from 'src/entities/user_courses_course.entity';
 
 @Injectable()
