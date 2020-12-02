@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { userInfo } from 'os';
 import { CourseModule } from 'src/modules/course/course.module';
 import {
   Entity,
@@ -7,12 +8,13 @@ import {
   ManyToMany,
   JoinTable,
   Index,
+  PrimaryColumn,
 } from 'typeorm';
 import { Course } from './course.entity';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   userId: string;
 
   @Column()
@@ -25,7 +27,20 @@ export class User {
   @Column()
   fullname: string;
 
-  @ManyToMany(() => Course)
-  @JoinTable()
+  @ManyToMany(
+    () => Course,
+    course => course.users,
+  )
+  @JoinTable({
+    name: 'user_courses_course',
+    joinColumn: {
+      name: 'userId',
+      referencedColumnName: 'userId',
+    },
+    inverseJoinColumn: {
+      name: 'courseId',
+      referencedColumnName: 'courseId',
+    },
+  })
   courses: Course[];
 }

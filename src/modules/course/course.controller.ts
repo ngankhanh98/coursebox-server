@@ -1,6 +1,8 @@
 import {
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   Query,
   Req,
@@ -11,6 +13,7 @@ import {
   ApiBody,
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
@@ -26,6 +29,7 @@ import {
 } from '@nestjsx/crud';
 import { generateId } from 'src/common/utils';
 import { Course } from 'src/entities/course.entity';
+import { ParticipantService } from '../participant/participant.service';
 import { CourseService } from './course.service';
 import { getCourseDto, updateCourseDto } from './dto/course.dto';
 
@@ -58,7 +62,10 @@ import { getCourseDto, updateCourseDto } from './dto/course.dto';
 @ApiTags('Course')
 @Controller('course')
 export class CourseController implements CrudController<Course> {
-  constructor(public service: CourseService) {}
+  constructor(
+    public service: CourseService,
+    private readonly participantService: ParticipantService,
+  ) {}
 
   get base(): CrudController<Course> {
     return this;
@@ -81,6 +88,7 @@ export class CourseController implements CrudController<Course> {
   @UseInterceptors(CrudRequestInterceptor)
   @Get('/search')
   @ApiQuery({ name: 'title', required: false })
+  @ApiQuery({ name: 'teacher', required: false })
   @ApiOperation({ summary: 'Search course' })
   @ApiOkResponse({
     status: 200,
@@ -89,6 +97,25 @@ export class CourseController implements CrudController<Course> {
     description: 'Found results',
   })
   async find(@Query('') filters): Promise<getCourseDto[] | unknown[]> {
-    return this.service.findByFilter(filters)
+    return this.service.findByFilter(filters);
+  }
+  @Get('/:courseId/participant')
+  @ApiParam({ name: 'courseId' })
+  @ApiOperation({ summary: 'Get participant in courseId' })
+  getParticipantByCourseId(@Param() param: string) {
+    return this.participantService.getParticipantByCourseId(param['courseId']);
+  }
+
+  @Delete('/:courseId/:userId')
+  @ApiParam({ name: 'courseId' })
+  @ApiParam({ name: 'userId' })
+  @ApiOperation({
+    summary: 'Unenroll or reject user from course',
+  })
+  async removeByCourseIdAndUserId(@Param() param: string) {
+    return await this.participantService.removeEntry(
+      param['userId'],
+      param['courseId'],
+    );
   }
 }

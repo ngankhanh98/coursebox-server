@@ -1,14 +1,32 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Entity, PrimaryGeneratedColumn, Column, Index } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  Index,
+  ManyToMany,
+  PrimaryColumn,
+  ManyToOne,
+  OneToMany,
+} from 'typeorm';
+import { User } from './user.entity';
+import { UserCoursesCourse } from './user_courses_course.entity';
 
 @Entity()
 export class Course {
   // @ApiProperty()
-  @PrimaryGeneratedColumn()
+  @PrimaryColumn()
   courseId: string;
 
   @ApiProperty()
   @Index({ fulltext: true })
-  @Column()
+  @Column('text')
   title: string;
+
+  @ApiProperty()
+  @ManyToMany(
+    () => User,
+    user => user.courses,
+  )
+  users: User[];
 }

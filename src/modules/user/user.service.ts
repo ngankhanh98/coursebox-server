@@ -29,11 +29,7 @@ export class UserService extends TypeOrmCrudService<User> {
   private readonly logger = new Logger(UserService.name);
 
   public async findUserByUsername(username: string) {
-    const result = await this.userRepository.findOne({ username: username });
-    if (!result) {
-      throw new NotFoundException();
-    }
-    return result;
+    return await this.userRepository.findOne({ username: username });
   }
 
   public async getAccessToken(user: any) {
@@ -47,6 +43,7 @@ export class UserService extends TypeOrmCrudService<User> {
 
   public async updateOneUser(username: string, user: updateUser) {
     const oldUser = await this.findUserByUsername(username);
+    if (!oldUser) throw new NotFoundException();
     const newPwd = hash(user?.password);
 
     const newUser = user?.password
@@ -57,23 +54,50 @@ export class UserService extends TypeOrmCrudService<User> {
 
   public async deleteOneUser(username: string): Promise<void | User> {
     console.log('username', username);
-    await this.findUserByUsername(username);
+    const oldUser = await this.findUserByUsername(username);
+    if (!oldUser) throw new NotFoundException();
     return await this.userRepository.delete({ username: username });
   }
 
   async enrollCourse(username: string, courseId: string) {
-    const user = await this.findUserByUsername(username);
-    const course = await this.courseService.findCourseById(courseId);
-    user.course = course;
     try {
-      this.participantService.addEntry({
-        courseId: courseId,
-        roleId: 'member',
-        userId: user.userId,
-      });
+      let user = await this.findUserByUsername(username);
+      if (!user) throw new NotFoundException();
+
+      const course = await this.courseService.findCourseById(courseId);
+
+      // FIXME: cannot insert roleId
+      // At this time, enroll -> roleId auto 'member'
+      user = { ...user, courses: [{ ...course }] };
+
       return await this.userRepository.save(user);
     } catch (error) {
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(error);
     }
+  }
+
+  async findByFilter(filters: any) {
+    const keys = Object.keys(filters);
+    const values = Object.values(filters);
+
+    const promises = keys.map(
+      (key, index) =>
+        new Promise(resolve => {
+          resolve(
+            this.repo
+              .createQueryBuilder()
+              .select()
+              .where(
+                `MATCH (${key}) AGAINST ('${values[index]}' IN BOOLEAN MODE)`,
+              )
+              .getMany(),
+          );
+        }),
+    );
+
+    return Promise.all(promises).then(value => {
+      console.log(value);
+      return value;
+    });
   }
 }

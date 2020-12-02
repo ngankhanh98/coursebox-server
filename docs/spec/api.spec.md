@@ -34,7 +34,7 @@ As a teacher of a course, you are required to create a course. You can:
 ### Course
 - [x] GET - /course (S1.1)
 - [x] GET - /course/{courseId} (S1.1, S3.3)
-- [ ] GET - /course/search?{name, tags, teacher} (S2.8)
+- [x] GET - /course/search?{name, teacher} (S2.8)
 - [x] POST - /course (S2.6)
 - [x] PUT - /course/{courseId} (S4.4)
 - [x] PATCH - /course/{courseId} (S4.4)
