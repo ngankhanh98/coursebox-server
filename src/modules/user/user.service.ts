@@ -2,19 +2,16 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { plainToClass } from 'class-transformer';
-import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 import { hash } from 'src/common/utils';
-import { Course } from 'src/entities/course.entity';
 import { User } from 'src/entities/user.entity';
 import { CourseService } from '../course/course.service';
 import { ParticipantService } from '../participant/participant.service';
-import { getUserBase, updateUser } from './dto/user.dto';
+import { updateUser } from './dto/user.dto';
 
 @Injectable()
 export class UserService extends TypeOrmCrudService<User> {
@@ -29,12 +26,7 @@ export class UserService extends TypeOrmCrudService<User> {
   private readonly logger = new Logger(UserService.name);
 
   public async findUserByUsername(username: string) {
-<<<<<<< HEAD
-    const result = await this.userRepository.findOne({ username: username });
-    return result;
-=======
     return await this.userRepository.findOne({ username: username });
->>>>>>> main
   }
 
   public async getAccessToken(user: any) {
@@ -48,13 +40,7 @@ export class UserService extends TypeOrmCrudService<User> {
 
   public async updateOneUser(username: string, user: updateUser) {
     const oldUser = await this.findUserByUsername(username);
-<<<<<<< HEAD
-    if (!oldUser.length) {
-      throw new NotFoundException();
-    }
-=======
     if (!oldUser) throw new NotFoundException();
->>>>>>> main
     const newPwd = hash(user?.password);
 
     const newUser = user?.password
@@ -65,15 +51,8 @@ export class UserService extends TypeOrmCrudService<User> {
 
   public async deleteOneUser(username: string): Promise<void | User> {
     console.log('username', username);
-<<<<<<< HEAD
-    const result = await this.findUserByUsername(username);
-    if (!result) {
-      throw new NotFoundException();
-    }
-=======
     const oldUser = await this.findUserByUsername(username);
     if (!oldUser) throw new NotFoundException();
->>>>>>> main
     return await this.userRepository.delete({ username: username });
   }
 
