@@ -7,7 +7,9 @@ import { updateCourseDto } from './dto/course.dto';
 
 @Injectable()
 export class CourseService extends TypeOrmCrudService<Course> {
-  constructor(@InjectRepository(Course) repo) {
+  constructor(
+    @InjectRepository(Course) repo,
+  ) {
     super(repo);
   }
 
@@ -34,19 +36,23 @@ export class CourseService extends TypeOrmCrudService<Course> {
     const keys = Object.keys(filters);
     const values = Object.values(filters);
 
+    console.log('keys', keys);
+    console.log('values', values);
     // FIXME: Can't find FULLTEXT index matching the column list
     const promises = keys.map(
       (key, index) =>
         new Promise(resolve => {
-          resolve(
-            this.repo
-              .createQueryBuilder()
-              .select()
-              .where(
-                `MATCH(${key}) AGAINST ('${values[index]}' IN BOOLEAN MODE)`,
+          Object.keys(this.repo.metadata.propertiesMap).includes(key)
+            ? resolve(
+                this.repo
+                  .createQueryBuilder()
+                  .select()
+                  .where(
+                    `MATCH (${key}) AGAINST ('${values[index]}' IN BOOLEAN MODE)`,
+                  )
+                  .getMany(),
               )
-              .getMany(),
-          );
+            : resolve(null);
         }),
     );
 
@@ -54,5 +60,10 @@ export class CourseService extends TypeOrmCrudService<Course> {
       console.log(value);
       return value;
     });
+  }
+
+  // TODO: join 3 table: user, participant, course
+  async findByTeacherName(fullname: string) {
+    return;
   }
 }

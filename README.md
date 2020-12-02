@@ -207,3 +207,9 @@ export const DatabaseProvider = TypeOrmModule.forRootAsync({
 ## Nestjsx/crud
 
 Follow this [docs](https://github.com/nestjsx/crud/wiki/Controllers#install) and you would be fine
+
+## Fulltext search 
+Execute this in your database:
+```sql
+ALTER TABLE course ADD FULLTEXT(title);
+```

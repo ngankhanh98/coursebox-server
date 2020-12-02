@@ -6,5 +6,5 @@ import { DatabaseProvider } from './database.provider';
   imports: [DatabaseProvider],
 })
 export class DatabaseModule {
-  constructor(private connection: Connection) {}
+  constructor(public connection: Connection) {}
 }

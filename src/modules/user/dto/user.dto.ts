@@ -11,6 +11,10 @@ export class getUser {
 
   @ApiProperty()
   password: string;
+
+  @ApiProperty()
+  fullname: string;
+
 }
 
 export class getUserBase {
@@ -23,6 +27,9 @@ export class getUserBase {
   @ApiProperty()
   @Exclude()
   password: string;
+
+  @ApiProperty()
+  fullname: string;
 }
 
 export class updateUser {
@@ -36,4 +43,7 @@ export class updateUser {
 
   @ApiProperty()
   password: string;
+
+  @ApiProperty()
+  fullname: string;
 }
