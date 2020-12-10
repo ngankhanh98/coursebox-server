@@ -57,6 +57,7 @@ import { getCourseDto, updateCourseDto } from './dto/course.dto';
   serialize: {
     create: updateCourseDto,
     update: updateCourseDto,
+    getMany: updateCourseDto,
   },
 })
 @ApiTags('Course')

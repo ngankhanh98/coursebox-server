@@ -22,4 +22,6 @@ export class getCourseDto {
 
   @ApiProperty()
   title: string;
+
+  
 }

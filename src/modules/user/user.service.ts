@@ -59,7 +59,7 @@ export class UserService extends TypeOrmCrudService<User> {
     return await this.userRepository.delete({ username: username });
   }
 
-  async enrollCourse(username: string, courseId: string) {
+  async enrollCourse(username: string, courseId: string, roleId: string) {
     try {
       let user = await this.findUserByUsername(username);
       if (!user) throw new NotFoundException();
@@ -68,9 +68,9 @@ export class UserService extends TypeOrmCrudService<User> {
 
       // FIXME: cannot insert roleId
       // At this time, enroll -> roleId auto 'member'
-      user = { ...user, courses: [{ ...course }] };
-
-      return await this.userRepository.save(user);
+      user = { ...user, courses: [{ ...course, roleId: roleId }] };
+      return await this.participantService.addEntry(user['userId'], courseId, roleId);
+      // return await this.userRepository.save(user);
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
