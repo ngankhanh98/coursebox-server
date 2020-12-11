@@ -1,5 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { GetManyDefaultResponse } from '@nestjsx/crud';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
 import { rejects } from 'assert';
 import { resolve } from 'path';
@@ -69,7 +70,7 @@ export class CourseService extends TypeOrmCrudService<Course> {
     return;
   }
 
-  async findAllCoursesWithTeacher() {
+  async findAllCoursesWithTeacher(): Promise<Course | Course[]> {
     return new Promise(resolve => {
       resolve(
         this.repo

@@ -21,6 +21,7 @@ import {
   CrudController,
   CrudRequest,
   CrudRequestInterceptor,
+  GetManyDefaultResponse,
   Override,
 } from '@nestjsx/crud';
 import { Course } from 'src/entities/course.entity';
@@ -41,18 +42,11 @@ import { getCourseDto, updateCourseDto } from './dto/course.dto';
   },
   routes: {
     // exclude: ['createManyBase'],
-    only: [
-      'updateOneBase',
-      'getOneBase',
-      'replaceOneBase',
-      'deleteOneBase',
-      'getManyBase',
-    ],
+    only: ['updateOneBase', 'getOneBase', 'replaceOneBase', 'deleteOneBase'],
   },
   serialize: {
     create: updateCourseDto,
     update: updateCourseDto,
-    getMany: updateCourseDto,
   },
 })
 @ApiTags('Course')
@@ -115,9 +109,9 @@ export class CourseController implements CrudController<Course> {
     );
   }
 
-  @Get('/courses')
-  @ApiOperation({ summary: 'Retrieve many courses with user' })
-  async getManyCourses() {
+  @Get('/')
+  @ApiOperation({ summary: 'Retrieve many courses' })
+  async getAllCourseWithTeacher(): Promise<Course | Course[]> {
     return this.service.findAllCoursesWithTeacher();
   }
 }
