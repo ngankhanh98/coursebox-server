@@ -1,15 +1,17 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
+import { rejects } from 'assert';
+import { resolve } from 'path';
 import { generateId } from 'src/common/utils';
 import { Course } from 'src/entities/course.entity';
+import { User } from 'src/entities/user.entity';
+import { createQueryBuilder } from 'typeorm';
 import { updateCourseDto } from './dto/course.dto';
 
 @Injectable()
 export class CourseService extends TypeOrmCrudService<Course> {
-  constructor(
-    @InjectRepository(Course) repo,
-  ) {
+  constructor(@InjectRepository(Course) repo) {
     super(repo);
   }
 
@@ -65,5 +67,26 @@ export class CourseService extends TypeOrmCrudService<Course> {
   // TODO: join 3 table: user, participant, course
   async findByTeacherName(fullname: string) {
     return;
+  }
+
+  async findAllCoursesWithTeacher() {
+    return new Promise(resolve => {
+      resolve(
+        this.repo
+          .createQueryBuilder('course')
+          .leftJoinAndSelect('course.teacher', 'user')
+          .getMany(),
+      );
+    });
+  }
+  async findAllCoursesWithMembers() {
+    return new Promise(resolve => {
+      resolve(
+        this.repo
+          .createQueryBuilder('course')
+          .leftJoinAndSelect('course.users', 'user')
+          .getMany(),
+      );
+    });
   }
 }

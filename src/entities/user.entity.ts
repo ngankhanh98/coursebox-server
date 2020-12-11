@@ -9,6 +9,7 @@ import {
   JoinTable,
   Index,
   PrimaryColumn,
+  OneToMany,
 } from 'typeorm';
 import { Course } from './course.entity';
 
@@ -43,4 +44,10 @@ export class User {
     },
   })
   courses: Course[];
+
+  @OneToMany(
+    () => Course,
+    course => course.teacher,
+  )
+  teaching_courses: Course[];
 }

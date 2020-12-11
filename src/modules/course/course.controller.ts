@@ -6,7 +6,6 @@ import {
   Post,
   Query,
   Req,
-  Request,
   UseInterceptors,
 } from '@nestjs/common';
 import {
@@ -22,12 +21,8 @@ import {
   CrudController,
   CrudRequest,
   CrudRequestInterceptor,
-  GetManyDefaultResponse,
   Override,
-  ParsedBody,
-  ParsedRequest,
 } from '@nestjsx/crud';
-import { generateId } from 'src/common/utils';
 import { Course } from 'src/entities/course.entity';
 import { ParticipantService } from '../participant/participant.service';
 import { CourseService } from './course.service';
@@ -118,5 +113,11 @@ export class CourseController implements CrudController<Course> {
       param['userId'],
       param['courseId'],
     );
+  }
+
+  @Get('/courses')
+  @ApiOperation({ summary: 'Retrieve many courses with user' })
+  async getManyCourses() {
+    return this.service.findAllCoursesWithTeacher();
   }
 }
