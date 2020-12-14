@@ -72,6 +72,7 @@ export class CourseController implements CrudController<Course> {
   async createOneCourse(
     @Req() req: updateCourseDto,
   ): Promise<Course | unknown> {
+    console.log('req[]', req['body']);
     return await this.service.createCourse(req['body']);
   }
 
@@ -112,6 +113,7 @@ export class CourseController implements CrudController<Course> {
   @Get('/')
   @ApiOperation({ summary: 'Retrieve many courses' })
   async getAllCourseWithTeacher(): Promise<Course | Course[]> {
-    return this.service.findAllCoursesWithTeacher();
+    return this.service.findAllCourses();
+    // return this.service.findAllCoursesWithTeacher();
   }
 }

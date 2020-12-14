@@ -17,13 +17,17 @@ export class CourseService extends TypeOrmCrudService<Course> {
   }
 
   createCourse(dto: updateCourseDto): Promise<Course> {
-    const course = new Course();
-    course.title = dto.title;
-    course.courseId = generateId(course.title + new Date().toUTCString()).slice(
-      0,
-      9,
-    );
-    return this.repo.save(course);
+    // const course = new Course();
+    // course.title = dto.title;
+    // course.courseId = generateId(course.title + new Date().toUTCString()).slice(
+    //   0,
+    //   9,
+    // );
+    dto.courseId = generateId(dto.title + new Date().toUTCString()).slice(0, 9);
+    // return this.repo.save(course);
+    console.log('dto', dto);
+
+    return this.repo.save(dto);
   }
 
   public async findCourseById(courseId: string) {
@@ -80,12 +84,25 @@ export class CourseService extends TypeOrmCrudService<Course> {
       );
     });
   }
-  async findAllCoursesWithMembers() {
+  async findAllCoursesWithMembers(): Promise<Course | Course[]> {
     return new Promise(resolve => {
       resolve(
         this.repo
           .createQueryBuilder('course')
           .leftJoinAndSelect('course.users', 'user')
+
+          .getMany(),
+      );
+    });
+  }
+
+  async findAllCourses(): Promise<Course | Course[]> {
+    return new Promise(resolve => {
+      resolve(
+        this.repo
+          .createQueryBuilder('course')
+          .leftJoinAndSelect('course.users', 'user')
+          .leftJoinAndSelect('course.teacher', 'teacher')
           .getMany(),
       );
     });
