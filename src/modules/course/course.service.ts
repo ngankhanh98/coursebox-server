@@ -90,7 +90,7 @@ export class CourseService extends TypeOrmCrudService<Course> {
         this.repo
           .createQueryBuilder('course')
           .leftJoinAndSelect('course.users', 'user')
-
+          .orderBy('course.createdAt', 'DESC')
           .getMany(),
       );
     });

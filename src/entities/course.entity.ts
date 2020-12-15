@@ -1,11 +1,13 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   Column,
+  CreateDateColumn,
   Entity,
   Index,
   ManyToMany,
   ManyToOne,
   PrimaryColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
 
@@ -32,4 +34,7 @@ export class Course {
     user => user.courses,
   )
   users: User[];
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
 }

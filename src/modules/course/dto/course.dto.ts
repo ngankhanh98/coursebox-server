@@ -18,6 +18,9 @@ export class updateCourseDto {
 
   @ApiProperty()
   teacher: User;
+
+  @ApiProperty()
+  createdAt: Date;
 }
 
 export class getCourseDto {
@@ -32,4 +35,7 @@ export class getCourseDto {
 
   @ApiProperty()
   teacher: User;
+
+  @ApiProperty()
+  createdAt: Date;
 }

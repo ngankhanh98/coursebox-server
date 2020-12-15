@@ -47,6 +47,7 @@ import { getCourseDto, updateCourseDto } from './dto/course.dto';
   serialize: {
     create: updateCourseDto,
     update: updateCourseDto,
+    get: Course
   },
 })
 @ApiTags('Course')
@@ -114,6 +115,5 @@ export class CourseController implements CrudController<Course> {
   @ApiOperation({ summary: 'Retrieve many courses' })
   async getAllCourseWithTeacher(): Promise<Course | Course[]> {
     return this.service.findAllCourses();
-    // return this.service.findAllCoursesWithTeacher();
   }
 }
