@@ -25,10 +25,6 @@ export class AuthService {
 
   private readonly logger = new Logger(AuthService.name);
 
-  // C#, PHP là ngôn ngữ đồng bộ
-  // JS là ngôn ngữ bất đồng bộ
-  // callback => promise => async/await
-  //
   public async validateUser(username: string, password: string): Promise<any> {
     const user = await this.userService.findUserByUsername(username);
     const verify = user ? await compare(password, user.password) : false;
@@ -62,7 +58,9 @@ export class AuthService {
   }
 
   public async login(user) {
-    return await this.userService.getAccessToken(user);
+    const token = await this.userService.getAccessToken(user);
+    const foundUser = await this.userService.findUserByUsername(user.username);
+    return { ...foundUser, ...token };
   }
 
   public async getResetPwdToken(username: string) {

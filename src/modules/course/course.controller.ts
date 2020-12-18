@@ -14,15 +14,14 @@ import {
   ApiOperation,
   ApiParam,
   ApiQuery,
-  ApiTags,
+  ApiTags
 } from '@nestjs/swagger';
 import {
   Crud,
   CrudController,
   CrudRequest,
   CrudRequestInterceptor,
-  GetManyDefaultResponse,
-  Override,
+  Override
 } from '@nestjsx/crud';
 import { Course } from 'src/entities/course.entity';
 import { ParticipantService } from '../participant/participant.service';

@@ -2,19 +2,16 @@ import {
   Injectable,
   InternalServerErrorException,
   Logger,
-  NotFoundException,
+  NotFoundException
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
 import { TypeOrmCrudService } from '@nestjsx/crud-typeorm';
-import { plainToClass } from 'class-transformer';
-import { HttpExceptionFilter } from 'src/common/filters/http-exception.filter';
 import { hash } from 'src/common/utils';
-import { Course } from 'src/entities/course.entity';
 import { User } from 'src/entities/user.entity';
 import { CourseService } from '../course/course.service';
 import { ParticipantService } from '../participant/participant.service';
-import { getUserBase, updateUser } from './dto/user.dto';
+import { updateUser } from './dto/user.dto';
 
 @Injectable()
 export class UserService extends TypeOrmCrudService<User> {

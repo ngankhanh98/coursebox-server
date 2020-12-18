@@ -9,19 +9,19 @@ import { UserCoursesCourse } from 'src/entities/user_courses_course.entity';
 export const DatabaseProvider = TypeOrmModule.forRootAsync({
   imports: [
     ConfigModule.forRoot({
-      load: [localMySql],
-      // load: [remoteMySql],
+      // load: [localMySql],
+      load: [remoteMySql],
     }),
   ],
   inject: [ConfigService],
   useFactory: (configService: ConfigService): TypeOrmModuleOptions => {
     return {
-      ...configService.get('localMySql'),
-      // ...configService.get('remoteMySql'),
+      // ...configService.get('localMySql'),
+      ...configService.get('remoteMySql'),
       entities: [Course, User, UserCoursesCourse],
       keepConnectionAlive: true,
-      // synchronize: false,
-      synchronize: true,
+      synchronize: false,
+      // synchronize: true,
       autoLoadEntities: true,
     };
   },
