@@ -30,13 +30,23 @@ export class CourseService extends TypeOrmCrudService<Course> {
     return this.repo.save(dto);
   }
 
-  public async findCourseById(courseId: string) {
-    const result = await this.repo.findOne({ courseId: courseId });
+  public async findCourseById(courseId: string): Promise<Course> {
+    return new Promise(resolve => {
+      resolve(
+        this.repo
+          .createQueryBuilder('course')
+          .leftJoinAndSelect('course.users', 'user')
+          .leftJoinAndSelect('course.teacher', 'teacher')
+          .where('course.courseId = :courseId', { courseId: courseId })
+          .getOne(),
+      );
+    });
+    // const result = await this.repo.findOne({ courseId: courseId });
 
-    if (!result) {
-      throw new NotFoundException();
-    }
-    return result;
+    // if (!result) {
+    //   throw new NotFoundException();
+    // }
+    // return result;
   }
 
   findByFilter(filters: any) {

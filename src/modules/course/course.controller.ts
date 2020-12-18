@@ -41,13 +41,12 @@ import { getCourseDto, updateCourseDto } from './dto/course.dto';
     },
   },
   routes: {
-    // exclude: ['createManyBase'],
-    only: ['updateOneBase', 'getOneBase', 'replaceOneBase', 'deleteOneBase'],
+    only: ['updateOneBase', 'replaceOneBase', 'deleteOneBase'],
   },
   serialize: {
     create: updateCourseDto,
     update: updateCourseDto,
-    get: Course
+    // get: updateCourseDto,
   },
 })
 @ApiTags('Course')
@@ -115,5 +114,14 @@ export class CourseController implements CrudController<Course> {
   @ApiOperation({ summary: 'Retrieve many courses' })
   async getAllCourseWithTeacher(): Promise<Course | Course[]> {
     return this.service.findAllCourses();
+  }
+
+  @Get('/:courseId')
+  @ApiParam({ name: 'courseId' })
+  @ApiOperation({
+    summary: 'Retrieve one course',
+  })
+  getCourseById(@Param() param: string): Promise<Course> {
+    return this.service.findCourseById(param['courseId']);
   }
 }
