@@ -35,4 +35,12 @@ export class ParticipantService {
       courseId: courseId,
     });
   }
+
+  async addEntry(userId: string, courseId: string, roleId: string) {
+    return await this.participantRepository.save({
+      userId: userId,
+      courseId: courseId,
+      roleId: roleId,
+    });
+  }
 }

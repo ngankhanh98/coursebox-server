@@ -105,8 +105,13 @@ export class UserController implements CrudController<User> {
   @UseGuards(JwtAuthGuard)
   @ApiHeader({ name: 'access-token' })
   @ApiQuery({ name: 'courseId', required: true })
+  @ApiQuery({ name: 'roleId', required: true })
   @Post('/enroll')
   enrollCourse(@Req() req) {
-    return this.service.enrollCourse(req['user'], req.query['courseId']);
+    return this.service.enrollCourse(
+      req['user'],
+      req.query['courseId'],
+      req.query['roleId'],
+    );
   }
 }

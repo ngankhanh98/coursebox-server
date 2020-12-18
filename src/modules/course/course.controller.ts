@@ -6,8 +6,12 @@ import {
   Post,
   Query,
   Req,
+<<<<<<< HEAD
 
   UseInterceptors
+=======
+  UseInterceptors,
+>>>>>>> main
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -22,7 +26,12 @@ import {
   CrudController,
   CrudRequest,
   CrudRequestInterceptor,
+<<<<<<< HEAD
   Override
+=======
+  GetManyDefaultResponse,
+  Override,
+>>>>>>> main
 } from '@nestjsx/crud';
 import { Course } from 'src/entities/course.entity';
 import { ParticipantService } from '../participant/participant.service';
@@ -41,18 +50,12 @@ import { getCourseDto, updateCourseDto } from './dto/course.dto';
     },
   },
   routes: {
-    // exclude: ['createManyBase'],
-    only: [
-      'updateOneBase',
-      'getOneBase',
-      'replaceOneBase',
-      'deleteOneBase',
-      'getManyBase',
-    ],
+    only: ['updateOneBase', 'replaceOneBase', 'deleteOneBase'],
   },
   serialize: {
     create: updateCourseDto,
     update: updateCourseDto,
+    // get: updateCourseDto,
   },
 })
 @ApiTags('Course')
@@ -78,6 +81,7 @@ export class CourseController implements CrudController<Course> {
   async createOneCourse(
     @Req() req: updateCourseDto,
   ): Promise<Course | unknown> {
+    console.log('req[]', req['body']);
     return await this.service.createCourse(req['body']);
   }
 
@@ -113,5 +117,20 @@ export class CourseController implements CrudController<Course> {
       param['userId'],
       param['courseId'],
     );
+  }
+
+  @Get('/')
+  @ApiOperation({ summary: 'Retrieve many courses' })
+  async getAllCourseWithTeacher(): Promise<Course | Course[]> {
+    return this.service.findAllCourses();
+  }
+
+  @Get('/:courseId')
+  @ApiParam({ name: 'courseId' })
+  @ApiOperation({
+    summary: 'Retrieve one course',
+  })
+  getCourseById(@Param() param: string): Promise<Course> {
+    return this.service.findCourseById(param['courseId']);
   }
 }

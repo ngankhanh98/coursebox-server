@@ -9,6 +9,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('v1');
   app.useGlobalFilters(new HttpExceptionFilter());
+  app.enableCors()
 
   if (module.hot) {
     module.hot.accept();

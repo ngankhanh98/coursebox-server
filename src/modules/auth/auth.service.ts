@@ -74,7 +74,9 @@ export class AuthService {
     if (!existedUser)
       throw new NotFoundException(exceptionMessage.USER_NOT_FOUND);
 
-    return await this.jwtService.sign(payload);
+    const json = { resetPwdToken: await this.jwtService.sign(payload) };
+    return json;
+    // return await this.jwtService.sign(payload);
   }
 
   public async setPassword(username, newPassword) {

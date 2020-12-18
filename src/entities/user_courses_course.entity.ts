@@ -7,7 +7,7 @@ export class UserCoursesCourse {
   userId: string;
 
   @PrimaryColumn()
-  courseId: number;
+  courseId: string;
 
   @Column({
     default: 'member',

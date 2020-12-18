@@ -1,22 +1,27 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
+  CreateDateColumn,
+  Entity,
   Index,
   ManyToMany,
-  PrimaryColumn,
   ManyToOne,
-  OneToMany,
+  PrimaryColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { User } from './user.entity';
-import { UserCoursesCourse } from './user_courses_course.entity';
 
 @Entity()
 export class Course {
   // @ApiProperty()
   @PrimaryColumn()
   courseId: string;
+
+  @ManyToOne(
+    () => User,
+    user => user.teaching_courses,
+  )
+  teacher: User;
 
   @ApiProperty()
   @Index({ fulltext: true })
@@ -29,4 +34,7 @@ export class Course {
     user => user.courses,
   )
   users: User[];
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt: Date;
 }

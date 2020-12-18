@@ -7,6 +7,7 @@ export class updateCourseDto {
   // @Expose()
   // @Exclude()
   // @Allow()
+  // @ApiProperty()
   courseId: string;
 
   @ApiProperty()
@@ -14,6 +15,12 @@ export class updateCourseDto {
 
   @ApiProperty()
   users: User[];
+
+  @ApiProperty()
+  teacher: User;
+
+  @ApiProperty()
+  createdAt: Date;
 }
 
 export class getCourseDto {
@@ -22,4 +29,13 @@ export class getCourseDto {
 
   @ApiProperty()
   title: string;
+
+  @ApiProperty()
+  users: User[];
+
+  @ApiProperty()
+  teacher: User;
+
+  @ApiProperty()
+  createdAt: Date;
 }
