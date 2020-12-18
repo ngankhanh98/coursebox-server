@@ -4197,8 +4197,8 @@
         "affectsGlobalScope": false
       },
       "../src/modules/auth/auth.service.ts": {
-        "version": "2826deefec4ff750f9bb0a7ab059e06e3f602f7c8281bbe0f5980f9bb954cc30",
-        "signature": "5ac0558be91f314ad135c295ec2f2fdc2a2945831629f524a422a8b48b8fe461",
+        "version": "7edcd7b65151bf90b9d04ba23de37dbd14a23b5b1d2f997098993f84c761495e",
+        "signature": "96468cde8834a392e486dc5af319d5a7712fece8277e3e92e7c945604f01aa87",
         "affectsGlobalScope": false
       },
       "../src/modules/auth/strategies/local.strategy.ts": {
@@ -4218,7 +4218,7 @@
       },
       "../src/modules/auth/auth.controller.ts": {
         "version": "3ef1a338175ba25c9f090a70e1ed42e3e4e7f1374000e636a1778362c4aa476b",
-        "signature": "832638996a278475247e658600be8621d939831bbf53d76ebce050f348a85724",
+        "signature": "841121193a8cbb52877fb20c46a0cb936261f201000270bd49dbe306026215a7",
         "affectsGlobalScope": false
       },
       "../src/modules/auth/strategies/resetpwd-jwt.strategy.ts": {

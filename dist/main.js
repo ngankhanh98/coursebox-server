@@ -22,7 +22,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "34e95234f78469575002";
+/******/ 	var hotCurrentHash = "8e2a0cf002669ef2d0c5";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -2551,7 +2551,9 @@ let AuthService = AuthService_1 = class AuthService {
         throw new common_1.ConflictException(constants_1.exceptionMessage.USER_ALREADY_EXIST);
     }
     async login(user) {
-        return await this.userService.getAccessToken(user);
+        const token = await this.userService.getAccessToken(user);
+        const foundUser = await this.userService.findUserByUsername(user.username);
+        return { ...foundUser, ...token };
     }
     async getResetPwdToken(username) {
         const existedUser = await this.userService.findUserByUsername(username);
