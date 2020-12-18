@@ -2767,13 +2767,13 @@
         "affectsGlobalScope": false
       },
       "../src/entities/user_courses_course.entity.ts": {
-        "version": "0e36453d31126a8de2ddf6c9531a4377c5c19ab77627ea27e09221af74d7fbb8",
-        "signature": "59399fe3f9c927979492fbf7039e57be34f5575e4a2ce5b900ff94e3d4e75d65",
+        "version": "8bcc8004c588dccde0aef4c2ed9e5f52aff4086b95809b61b5753b65df0ab39e",
+        "signature": "edac0b47883e50d8dad92fa93b68bae9b29b4352ae2ed954243711b3c8f2c43a",
         "affectsGlobalScope": false
       },
       "../src/modules/participant/participant.service.ts": {
-        "version": "c72c5be36b45f40130637e7ecf93271697c34548639a036558898f354642c148",
-        "signature": "6c9612e690d5b010142c90e6ba7ee191016efb512281c74987f8572245c27310",
+        "version": "6a478281828bbbc4c37917873a70139a12a4dd165287068417b22dbf263c0e3a",
+        "signature": "9b55b0b6ba36831fbe0647f126c10c008a82a6122af32844b9cda82bca9958fb",
         "affectsGlobalScope": false
       },
       "../src/modules/participant/participant.module.ts": {
@@ -3972,18 +3972,18 @@
         "affectsGlobalScope": false
       },
       "../src/modules/course/dto/course.dto.ts": {
-        "version": "82e39b2f49ae7ebef91d442394c08fd3d275852cf33e18e5394d3d1f7d9834e6",
-        "signature": "86ae506afccdbba492737fccc04d2b0c581bcdb61df6d1b7390144b2b5603bee",
+        "version": "d71399155d893b0cdac6f054b8e4fa3f122f3f9a4eceab61b9d64ac6f3755a22",
+        "signature": "08c44261b5bdd9a8b60f861ba4441f5f10cd78a2a9f44dd820578bfd263ad745",
         "affectsGlobalScope": false
       },
       "../src/modules/course/course.service.ts": {
-        "version": "6a28dbcd8fea1cda854919663e4eef9c3bc0fa19a3ed2d8a24cc7f24a31f87a1",
-        "signature": "e2c1906167dca69af43a2a3d1ec2d471d1443e9ee025653e079c0fd0bb3df734",
+        "version": "18151819aebe99366bf67d50ce02c893811adcf2d5f132e7228aec87f3ed2664",
+        "signature": "366266ad86fd8095edb715f8f8861e803a10052c79584de619e2d3a9aa913677",
         "affectsGlobalScope": false
       },
       "../src/modules/course/course.controller.ts": {
-        "version": "f8b60a5f31fc39c9ffc58c640b1228a995090e0b5ed00b9c17c8e39a8b9b79b0",
-        "signature": "ac452118bfaf5e6e54cd8a09cbce3567676ad59ed05976df2076055f9199c99b",
+        "version": "d00dffa13192981b897dbed2cac20265974b22c52baca25f147e41311502334d",
+        "signature": "0beb23b41f3d446cc00cab3b302c902a2ef8cd9bd27a48c0af8e876e72e831df",
         "affectsGlobalScope": false
       },
       "../src/modules/course/course.module.ts": {
@@ -3992,13 +3992,13 @@
         "affectsGlobalScope": false
       },
       "../src/entities/user.entity.ts": {
-        "version": "46f2c955985efd83264173d2221de658d9543cc3de7284f11f945f1d4108bec2",
-        "signature": "172c78d4bdc72e78951e96d0be3fe617ed170bfd8326bb16da5100ada868aaba",
+        "version": "6cfec0e2e3dfd786d917256e03a1e9eff71d84acecd99de1b3d46fac3aea83a2",
+        "signature": "14387e57df9fc8fe04385e710bed236eed7bdfc4e914035a72a843d5da69eb57",
         "affectsGlobalScope": false
       },
       "../src/entities/course.entity.ts": {
-        "version": "0983a8c3bb989a6340a491c4113ee4270d2f6549264cd072d25701de7980ed11",
-        "signature": "96e0cf54c441664b745a863710b696804015632176df1654206994af3ed5c2e8",
+        "version": "6467221198e4700a1766f6af8670a1404c87c4f0a8ec0a94b7b934391845e9b3",
+        "signature": "2f906c3c16244a1eaf727702594a1c4fbf90defed209cc58ae9dd2573b8f2edf",
         "affectsGlobalScope": false
       },
       "../src/database/database.provider.ts": {
@@ -4172,12 +4172,12 @@
         "affectsGlobalScope": false
       },
       "../src/modules/user/user.service.ts": {
-        "version": "eee3489e96559ba62abf291904c5b34d1adba044a77c3b5b7483e51d5c235490",
-        "signature": "f13cc2fb0a26cc83df319fb5b9b80c64e9923422affbc9c91eb4dc0c9d7ce8de",
+        "version": "1458830a51aa01c447531353163a4fd6adf1b6f4ac0b05fc80a654c4dcf609a4",
+        "signature": "46c9b72153fa7d131dcb2dbdb332597d6a80f25e6b7d1a58e572b13751943366",
         "affectsGlobalScope": false
       },
       "../src/modules/user/user.controller.ts": {
-        "version": "f7303df8987607beba79c81c08f2271b04afd765ab3dc2be91c0fb99cb93e338",
+        "version": "b9323e87cd5f6d29c2928b50a03f84d275b5fba53e45db99590637f7113d8de8",
         "signature": "11528dbbeea8c1aa8741d2a5c3d656af475a62f8ecd4d85f2aecc9acf33ff465",
         "affectsGlobalScope": false
       },
@@ -4197,8 +4197,8 @@
         "affectsGlobalScope": false
       },
       "../src/modules/auth/auth.service.ts": {
-        "version": "cf3815ae0adf7fcbbd0b602f73d2c1bd9332c4c2d0c14e93375f6c25098bf40d",
-        "signature": "ecaae4ef40c6667b16593ebaa455509499d2cd42c31e6791a26a96a83961069a",
+        "version": "2826deefec4ff750f9bb0a7ab059e06e3f602f7c8281bbe0f5980f9bb954cc30",
+        "signature": "5ac0558be91f314ad135c295ec2f2fdc2a2945831629f524a422a8b48b8fe461",
         "affectsGlobalScope": false
       },
       "../src/modules/auth/strategies/local.strategy.ts": {
@@ -4218,7 +4218,7 @@
       },
       "../src/modules/auth/auth.controller.ts": {
         "version": "3ef1a338175ba25c9f090a70e1ed42e3e4e7f1374000e636a1778362c4aa476b",
-        "signature": "42498cc41dc19a57ca876ef240acaea8c83e2949cdf6a96eb2ea4b930995da4d",
+        "signature": "832638996a278475247e658600be8621d939831bbf53d76ebce050f348a85724",
         "affectsGlobalScope": false
       },
       "../src/modules/auth/strategies/resetpwd-jwt.strategy.ts": {
@@ -4422,7 +4422,7 @@
         "affectsGlobalScope": false
       },
       "../src/main.ts": {
-        "version": "458e9a94f3246391cdc0d89e6db4319fee916becad4cb2ae30a2fcb1353a01e8",
+        "version": "2d227037d8a35887093417ac2ba70bdc5e0db3b251ba74b77434043eb554e4eb",
         "signature": "f761c91419d0a89422a0004ef1a92929dd4d2d5e5c16758654d8b0467d1998c6",
         "affectsGlobalScope": false
       },
@@ -8083,8 +8083,7 @@
       "../src/entities/course.entity.ts": [
         "../node_modules/@nestjs/swagger/index.d.ts",
         "../node_modules/typeorm/index.d.ts",
-        "../src/entities/user.entity.ts",
-        "../src/entities/user_courses_course.entity.ts"
+        "../src/entities/user.entity.ts"
       ],
       "../src/entities/user.entity.ts": [
         "../node_modules/@nestjs/swagger/index.d.ts",
@@ -8181,8 +8180,13 @@
         "../node_modules/@nestjs/common/index.d.ts",
         "../node_modules/@nestjs/typeorm/index.d.ts",
         "../node_modules/@nestjsx/crud-typeorm/lib/index.d.ts",
+        "../node_modules/@nestjsx/crud/lib/index.d.ts",
+        "../node_modules/@types/node/assert.d.ts",
+        "../node_modules/@types/node/path.d.ts",
+        "../node_modules/typeorm/index.d.ts",
         "../src/common/utils/index.ts",
         "../src/entities/course.entity.ts",
+        "../src/entities/user.entity.ts",
         "../src/modules/course/dto/course.dto.ts"
       ],
       "../src/modules/course/dto/course.dto.ts": [

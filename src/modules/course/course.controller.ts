@@ -6,12 +6,7 @@ import {
   Post,
   Query,
   Req,
-<<<<<<< HEAD
-
-  UseInterceptors
-=======
   UseInterceptors,
->>>>>>> main
 } from '@nestjs/common';
 import {
   ApiBody,
@@ -26,12 +21,7 @@ import {
   CrudController,
   CrudRequest,
   CrudRequestInterceptor,
-<<<<<<< HEAD
   Override
-=======
-  GetManyDefaultResponse,
-  Override,
->>>>>>> main
 } from '@nestjsx/crud';
 import { Course } from 'src/entities/course.entity';
 import { ParticipantService } from '../participant/participant.service';

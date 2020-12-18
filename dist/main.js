@@ -22,7 +22,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "3357388aa9729d347969";
+/******/ 	var hotCurrentHash = "34e95234f78469575002";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -996,6 +996,7 @@ async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.setGlobalPrefix('v1');
     app.useGlobalFilters(new http_exception_filter_1.HttpExceptionFilter());
+    app.enableCors();
     if (true) {
         module.hot.accept();
         module.hot.dispose(() => app.close());
@@ -1198,6 +1199,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a, _b;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Course = void 0;
 const swagger_1 = __webpack_require__(6);
@@ -1210,6 +1212,10 @@ __decorate([
     __metadata("design:type", String)
 ], Course.prototype, "courseId", void 0);
 __decorate([
+    typeorm_1.ManyToOne(() => user_entity_1.User, user => user.teaching_courses),
+    __metadata("design:type", typeof (_a = typeof user_entity_1.User !== "undefined" && user_entity_1.User) === "function" ? _a : Object)
+], Course.prototype, "teacher", void 0);
+__decorate([
     swagger_1.ApiProperty(),
     typeorm_1.Index({ fulltext: true }),
     typeorm_1.Column('text'),
@@ -1220,6 +1226,10 @@ __decorate([
     typeorm_1.ManyToMany(() => user_entity_1.User, user => user.courses),
     __metadata("design:type", Array)
 ], Course.prototype, "users", void 0);
+__decorate([
+    typeorm_1.CreateDateColumn({ type: 'timestamp' }),
+    __metadata("design:type", typeof (_b = typeof Date !== "undefined" && Date) === "function" ? _b : Object)
+], Course.prototype, "createdAt", void 0);
 Course = __decorate([
     typeorm_1.Entity()
 ], Course);
@@ -1279,6 +1289,10 @@ __decorate([
     }),
     __metadata("design:type", Array)
 ], User.prototype, "courses", void 0);
+__decorate([
+    typeorm_1.OneToMany(() => course_entity_1.Course, course => course.teacher),
+    __metadata("design:type", Array)
+], User.prototype, "teaching_courses", void 0);
 User = __decorate([
     typeorm_1.Entity()
 ], User);
@@ -1311,7 +1325,7 @@ __decorate([
 ], UserCoursesCourse.prototype, "userId", void 0);
 __decorate([
     typeorm_1.PrimaryColumn(),
-    __metadata("design:type", Number)
+    __metadata("design:type", String)
 ], UserCoursesCourse.prototype, "courseId", void 0);
 __decorate([
     typeorm_1.Column({
@@ -1578,7 +1592,7 @@ let UserController = class UserController {
         return this.service.deleteOneUser(req['user']);
     }
     enrollCourse(req) {
-        return this.service.enrollCourse(req['user'], req.query['courseId']);
+        return this.service.enrollCourse(req['user'], req.query['courseId'], req.query['roleId']);
     }
 };
 __decorate([
@@ -1633,6 +1647,7 @@ __decorate([
     common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard),
     swagger_1.ApiHeader({ name: 'access-token' }),
     swagger_1.ApiQuery({ name: 'courseId', required: true }),
+    swagger_1.ApiQuery({ name: 'roleId', required: true }),
     common_1.Post('/enroll'),
     __param(0, common_1.Req()),
     __metadata("design:type", Function),
@@ -1847,14 +1862,14 @@ let UserService = UserService_1 = class UserService extends crud_typeorm_1.TypeO
             throw new common_1.NotFoundException();
         return await this.userRepository.delete({ username: username });
     }
-    async enrollCourse(username, courseId) {
+    async enrollCourse(username, courseId, roleId) {
         try {
             let user = await this.findUserByUsername(username);
             if (!user)
                 throw new common_1.NotFoundException();
             const course = await this.courseService.findCourseById(courseId);
-            user = { ...user, courses: [{ ...course }] };
-            return await this.userRepository.save(user);
+            user = { ...user, courses: [{ ...course, roleId: roleId }] };
+            return await this.participantService.addEntry(user['userId'], courseId, roleId);
         }
         catch (error) {
             throw new common_1.InternalServerErrorException(error);
@@ -2016,17 +2031,19 @@ let CourseService = class CourseService extends crud_typeorm_1.TypeOrmCrudServic
         super(repo);
     }
     createCourse(dto) {
-        const course = new course_entity_1.Course();
-        course.title = dto.title;
-        course.courseId = utils_1.generateId(course.title + new Date().toUTCString()).slice(0, 9);
-        return this.repo.save(course);
+        dto.courseId = utils_1.generateId(dto.title + new Date().toUTCString()).slice(0, 9);
+        console.log('dto', dto);
+        return this.repo.save(dto);
     }
     async findCourseById(courseId) {
-        const result = await this.repo.findOne({ courseId: courseId });
-        if (!result) {
-            throw new common_1.NotFoundException();
-        }
-        return result;
+        return new Promise(resolve => {
+            resolve(this.repo
+                .createQueryBuilder('course')
+                .leftJoinAndSelect('course.users', 'user')
+                .leftJoinAndSelect('course.teacher', 'teacher')
+                .where('course.courseId = :courseId', { courseId: courseId })
+                .getOne());
+        });
     }
     findByFilter(filters) {
         const keys = Object.keys(filters);
@@ -2049,6 +2066,32 @@ let CourseService = class CourseService extends crud_typeorm_1.TypeOrmCrudServic
     }
     async findByTeacherName(fullname) {
         return;
+    }
+    async findAllCoursesWithTeacher() {
+        return new Promise(resolve => {
+            resolve(this.repo
+                .createQueryBuilder('course')
+                .leftJoinAndSelect('course.teacher', 'user')
+                .getMany());
+        });
+    }
+    async findAllCoursesWithMembers() {
+        return new Promise(resolve => {
+            resolve(this.repo
+                .createQueryBuilder('course')
+                .leftJoinAndSelect('course.users', 'user')
+                .orderBy('course.createdAt', 'DESC')
+                .getMany());
+        });
+    }
+    async findAllCourses() {
+        return new Promise(resolve => {
+            resolve(this.repo
+                .createQueryBuilder('course')
+                .leftJoinAndSelect('course.users', 'user')
+                .leftJoinAndSelect('course.teacher', 'teacher')
+                .getMany());
+        });
     }
 };
 CourseService = __decorate([
@@ -2096,6 +2139,13 @@ let ParticipantService = class ParticipantService {
         return await this.participantRepository.delete({
             userId: userId,
             courseId: courseId,
+        });
+    }
+    async addEntry(userId, courseId, roleId) {
+        return await this.participantRepository.save({
+            userId: userId,
+            courseId: courseId,
+            roleId: roleId,
         });
     }
 };
@@ -2188,7 +2238,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-var _a, _b, _c, _d, _e, _f, _g, _h;
+var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseController = void 0;
 const common_1 = __webpack_require__(8);
@@ -2210,6 +2260,7 @@ let CourseController = class CourseController {
         return this.base.updateOneBase(req, dto);
     }
     async createOneCourse(req) {
+        console.log('req[]', req['body']);
         return await this.service.createCourse(req['body']);
     }
     async find(filters) {
@@ -2220,6 +2271,12 @@ let CourseController = class CourseController {
     }
     async removeByCourseIdAndUserId(param) {
         return await this.participantService.removeEntry(param['userId'], param['courseId']);
+    }
+    async getAllCourseWithTeacher() {
+        return this.service.findAllCourses();
+    }
+    getCourseById(param) {
+        return this.service.findCourseById(param['courseId']);
     }
 };
 __decorate([
@@ -2275,6 +2332,24 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], CourseController.prototype, "removeByCourseIdAndUserId", null);
+__decorate([
+    common_1.Get('/'),
+    swagger_1.ApiOperation({ summary: 'Retrieve many courses' }),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", []),
+    __metadata("design:returntype", typeof (_g = typeof Promise !== "undefined" && Promise) === "function" ? _g : Object)
+], CourseController.prototype, "getAllCourseWithTeacher", null);
+__decorate([
+    common_1.Get('/:courseId'),
+    swagger_1.ApiParam({ name: 'courseId' }),
+    swagger_1.ApiOperation({
+        summary: 'Retrieve one course',
+    }),
+    __param(0, common_1.Param()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", typeof (_h = typeof Promise !== "undefined" && Promise) === "function" ? _h : Object)
+], CourseController.prototype, "getCourseById", null);
 CourseController = __decorate([
     crud_1.Crud({
         model: {
@@ -2288,13 +2363,7 @@ CourseController = __decorate([
             },
         },
         routes: {
-            only: [
-                'updateOneBase',
-                'getOneBase',
-                'replaceOneBase',
-                'deleteOneBase',
-                'getManyBase',
-            ],
+            only: ['updateOneBase', 'replaceOneBase', 'deleteOneBase'],
         },
         serialize: {
             create: course_dto_1.updateCourseDto,
@@ -2303,7 +2372,7 @@ CourseController = __decorate([
     }),
     swagger_1.ApiTags('Course'),
     common_1.Controller('course'),
-    __metadata("design:paramtypes", [typeof (_g = typeof course_service_1.CourseService !== "undefined" && course_service_1.CourseService) === "function" ? _g : Object, typeof (_h = typeof participant_service_1.ParticipantService !== "undefined" && participant_service_1.ParticipantService) === "function" ? _h : Object])
+    __metadata("design:paramtypes", [typeof (_j = typeof course_service_1.CourseService !== "undefined" && course_service_1.CourseService) === "function" ? _j : Object, typeof (_k = typeof participant_service_1.ParticipantService !== "undefined" && participant_service_1.ParticipantService) === "function" ? _k : Object])
 ], CourseController);
 exports.CourseController = CourseController;
 
@@ -2323,9 +2392,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
+var _a, _b, _c, _d;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.getCourseDto = exports.updateCourseDto = void 0;
 const swagger_1 = __webpack_require__(6);
+const user_entity_1 = __webpack_require__(16);
 class updateCourseDto {
 }
 __decorate([
@@ -2336,6 +2407,14 @@ __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", Array)
 ], updateCourseDto.prototype, "users", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", typeof (_a = typeof user_entity_1.User !== "undefined" && user_entity_1.User) === "function" ? _a : Object)
+], updateCourseDto.prototype, "teacher", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", typeof (_b = typeof Date !== "undefined" && Date) === "function" ? _b : Object)
+], updateCourseDto.prototype, "createdAt", void 0);
 exports.updateCourseDto = updateCourseDto;
 class getCourseDto {
 }
@@ -2347,6 +2426,18 @@ __decorate([
     swagger_1.ApiProperty(),
     __metadata("design:type", String)
 ], getCourseDto.prototype, "title", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", Array)
+], getCourseDto.prototype, "users", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", typeof (_c = typeof user_entity_1.User !== "undefined" && user_entity_1.User) === "function" ? _c : Object)
+], getCourseDto.prototype, "teacher", void 0);
+__decorate([
+    swagger_1.ApiProperty(),
+    __metadata("design:type", typeof (_d = typeof Date !== "undefined" && Date) === "function" ? _d : Object)
+], getCourseDto.prototype, "createdAt", void 0);
 exports.getCourseDto = getCourseDto;
 
 
@@ -2468,7 +2559,8 @@ let AuthService = AuthService_1 = class AuthService {
         this.logger.debug(this.jwtService);
         if (!existedUser)
             throw new common_1.NotFoundException(constants_1.exceptionMessage.USER_NOT_FOUND);
-        return await this.jwtService.sign(payload);
+        const json = { resetPwdToken: await this.jwtService.sign(payload) };
+        return json;
     }
     async setPassword(username, newPassword) {
         console.log(this.authRepository.manager);
