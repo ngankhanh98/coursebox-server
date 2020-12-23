@@ -13,6 +13,7 @@ import { UserService } from 'src/modules/user/user.service';
 import { Repository } from 'typeorm';
 import { compare, hash, generateId } from 'src/common/utils';
 import { createUserDTO } from './dto/auth.dto';
+import { plainToClass } from 'class-transformer';
 
 @Injectable()
 export class AuthService {
@@ -20,7 +21,7 @@ export class AuthService {
     @InjectRepository(User)
     private readonly authRepository: Repository<User>,
     private readonly jwtService: JwtService,
-    private readonly userService: UserService,
+    private readonly  userService: UserService,
   ) {}
 
   private readonly logger = new Logger(AuthService.name);
@@ -60,7 +61,8 @@ export class AuthService {
   public async login(user) {
     const token = await this.userService.getAccessToken(user);
     const foundUser = await this.userService.findUserByUsername(user.username);
-    return { ...foundUser, ...token };
+    const result = plainToClass(User, foundUser)
+    return { ...result, ...token };
   }
 
   public async getResetPwdToken(username: string) {

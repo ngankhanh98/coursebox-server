@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Exclude, Expose } from 'class-transformer';
 import { userInfo } from 'os';
 import { CourseModule } from 'src/modules/course/course.module';
 import {
@@ -22,6 +23,7 @@ export class User {
   username: string;
 
   @Column()
+  @Exclude()
   password: string;
 
   @Index({ fulltext: true })

@@ -22,7 +22,7 @@
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "8e2a0cf002669ef2d0c5";
+/******/ 	var hotCurrentHash = "db1160508da305f8025d";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -1042,10 +1042,10 @@ exports.AppModule = void 0;
 const common_1 = __webpack_require__(8);
 const config_1 = __webpack_require__(9);
 const database_module_1 = __webpack_require__(10);
-const auth_module_1 = __webpack_require__(18);
+const auth_module_1 = __webpack_require__(19);
 const course_controller_1 = __webpack_require__(44);
 const course_module_1 = __webpack_require__(42);
-const user_module_1 = __webpack_require__(21);
+const user_module_1 = __webpack_require__(22);
 const participant_module_1 = __webpack_require__(43);
 let AppModule = class AppModule {
 };
@@ -1131,7 +1131,7 @@ const typeorm_1 = __webpack_require__(13);
 const mysql_config_1 = __webpack_require__(14);
 const course_entity_1 = __webpack_require__(15);
 const user_entity_1 = __webpack_require__(16);
-const user_courses_course_entity_1 = __webpack_require__(17);
+const user_courses_course_entity_1 = __webpack_require__(18);
 exports.DatabaseProvider = typeorm_1.TypeOrmModule.forRootAsync({
     imports: [
         config_1.ConfigModule.forRoot({
@@ -1253,6 +1253,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.User = void 0;
+const class_transformer_1 = __webpack_require__(17);
 const typeorm_1 = __webpack_require__(11);
 const course_entity_1 = __webpack_require__(15);
 let User = class User {
@@ -1267,6 +1268,7 @@ __decorate([
 ], User.prototype, "username", void 0);
 __decorate([
     typeorm_1.Column(),
+    class_transformer_1.Exclude(),
     __metadata("design:type", String)
 ], User.prototype, "password", void 0);
 __decorate([
@@ -1301,6 +1303,12 @@ exports.User = User;
 
 /***/ }),
 /* 17 */
+/***/ (function(module, exports) {
+
+module.exports = require("class-transformer");
+
+/***/ }),
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1340,7 +1348,7 @@ exports.UserCoursesCourse = UserCoursesCourse;
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1355,16 +1363,16 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthModule = void 0;
 const common_1 = __webpack_require__(8);
 const config_1 = __webpack_require__(9);
-const jwt_1 = __webpack_require__(19);
-const passport_1 = __webpack_require__(20);
+const jwt_1 = __webpack_require__(20);
+const passport_1 = __webpack_require__(21);
 const typeorm_1 = __webpack_require__(13);
-const user_module_1 = __webpack_require__(21);
+const user_module_1 = __webpack_require__(22);
 const local_strategy_1 = __webpack_require__(46);
 const user_entity_1 = __webpack_require__(16);
 const auth_controller_1 = __webpack_require__(49);
 const auth_service_1 = __webpack_require__(48);
 const resetpwd_jwt_strategy_1 = __webpack_require__(53);
-const jwt_config_1 = __webpack_require__(22);
+const jwt_config_1 = __webpack_require__(23);
 let AuthModule = class AuthModule {
 };
 AuthModule = __decorate([
@@ -1390,19 +1398,19 @@ exports.AuthModule = AuthModule;
 
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, exports) {
 
 module.exports = require("@nestjs/jwt");
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, exports) {
 
 module.exports = require("@nestjs/passport");
 
 /***/ }),
-/* 21 */
+/* 22 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1417,13 +1425,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserModule = void 0;
 const common_1 = __webpack_require__(8);
 const config_1 = __webpack_require__(9);
-const jwt_1 = __webpack_require__(19);
-const passport_1 = __webpack_require__(20);
+const jwt_1 = __webpack_require__(20);
+const passport_1 = __webpack_require__(21);
 const typeorm_1 = __webpack_require__(13);
-const jwt_config_1 = __webpack_require__(22);
-const jwt_strategy_1 = __webpack_require__(23);
+const jwt_config_1 = __webpack_require__(23);
+const jwt_strategy_1 = __webpack_require__(24);
 const user_entity_1 = __webpack_require__(16);
-const user_controller_1 = __webpack_require__(26);
+const user_controller_1 = __webpack_require__(27);
 const user_service_1 = __webpack_require__(31);
 const course_module_1 = __webpack_require__(42);
 const participant_module_1 = __webpack_require__(43);
@@ -1453,7 +1461,7 @@ exports.UserModule = UserModule;
 
 
 /***/ }),
-/* 22 */
+/* 23 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1472,7 +1480,7 @@ exports.jwtResetPwd = config_1.registerAs('reset-password', () => ({
 
 
 /***/ }),
-/* 23 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1488,10 +1496,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JwtStrategy = void 0;
-const passport_jwt_1 = __webpack_require__(24);
-const passport_1 = __webpack_require__(20);
+const passport_jwt_1 = __webpack_require__(25);
+const passport_1 = __webpack_require__(21);
 const common_1 = __webpack_require__(8);
-const constants_1 = __webpack_require__(25);
+const constants_1 = __webpack_require__(26);
 let JwtStrategy = class JwtStrategy extends passport_1.PassportStrategy(passport_jwt_1.Strategy, constants_1.passportStrategies.AUTH) {
     constructor() {
         super({
@@ -1512,13 +1520,13 @@ exports.JwtStrategy = JwtStrategy;
 
 
 /***/ }),
-/* 24 */
+/* 25 */
 /***/ (function(module, exports) {
 
 module.exports = require("passport-jwt");
 
 /***/ }),
-/* 25 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1545,7 +1553,7 @@ exports.passportStrategies = {
 
 
 /***/ }),
-/* 26 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1567,9 +1575,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserController = void 0;
 const common_1 = __webpack_require__(8);
 const swagger_1 = __webpack_require__(6);
-const crud_1 = __webpack_require__(27);
-const jwt_auth_guard_1 = __webpack_require__(28);
-const user_dto_1 = __webpack_require__(29);
+const crud_1 = __webpack_require__(28);
+const jwt_auth_guard_1 = __webpack_require__(29);
+const user_dto_1 = __webpack_require__(30);
 const user_service_1 = __webpack_require__(31);
 let UserController = class UserController {
     constructor(service) {
@@ -1682,13 +1690,13 @@ exports.UserController = UserController;
 
 
 /***/ }),
-/* 27 */
+/* 28 */
 /***/ (function(module, exports) {
 
 module.exports = require("@nestjsx/crud");
 
 /***/ }),
-/* 28 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1702,7 +1710,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JwtAuthGuard = void 0;
 const common_1 = __webpack_require__(8);
-const passport_1 = __webpack_require__(20);
+const passport_1 = __webpack_require__(21);
 let JwtAuthGuard = class JwtAuthGuard extends passport_1.AuthGuard('auth') {
 };
 JwtAuthGuard = __decorate([
@@ -1712,7 +1720,7 @@ exports.JwtAuthGuard = JwtAuthGuard;
 
 
 /***/ }),
-/* 29 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1729,7 +1737,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.updateUser = exports.getUserBase = exports.getUser = void 0;
 const swagger_1 = __webpack_require__(6);
-const class_transformer_1 = __webpack_require__(30);
+const class_transformer_1 = __webpack_require__(17);
 class getUser {
 }
 __decorate([
@@ -1793,12 +1801,6 @@ exports.updateUser = updateUser;
 
 
 /***/ }),
-/* 30 */
-/***/ (function(module, exports) {
-
-module.exports = require("class-transformer");
-
-/***/ }),
 /* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1820,7 +1822,7 @@ var UserService_1, _a, _b, _c;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserService = void 0;
 const common_1 = __webpack_require__(8);
-const jwt_1 = __webpack_require__(19);
+const jwt_1 = __webpack_require__(20);
 const typeorm_1 = __webpack_require__(13);
 const crud_typeorm_1 = __webpack_require__(32);
 const utils_1 = __webpack_require__(33);
@@ -2124,7 +2126,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ParticipantService = void 0;
 const common_1 = __webpack_require__(8);
 const typeorm_1 = __webpack_require__(13);
-const user_courses_course_entity_1 = __webpack_require__(17);
+const user_courses_course_entity_1 = __webpack_require__(18);
 let ParticipantService = class ParticipantService {
     constructor(participantRepository) {
         this.participantRepository = participantRepository;
@@ -2206,7 +2208,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ParticipantModule = void 0;
 const common_1 = __webpack_require__(8);
 const typeorm_1 = __webpack_require__(13);
-const user_courses_course_entity_1 = __webpack_require__(17);
+const user_courses_course_entity_1 = __webpack_require__(18);
 const participant_service_1 = __webpack_require__(41);
 let ParticipantModule = class ParticipantModule {
 };
@@ -2243,7 +2245,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.CourseController = void 0;
 const common_1 = __webpack_require__(8);
 const swagger_1 = __webpack_require__(6);
-const crud_1 = __webpack_require__(27);
+const crud_1 = __webpack_require__(28);
 const course_entity_1 = __webpack_require__(15);
 const participant_service_1 = __webpack_require__(41);
 const course_service_1 = __webpack_require__(40);
@@ -2460,7 +2462,7 @@ var _a;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LocalStrategy = void 0;
 const common_1 = __webpack_require__(8);
-const passport_1 = __webpack_require__(20);
+const passport_1 = __webpack_require__(21);
 const passport_local_1 = __webpack_require__(47);
 const auth_service_1 = __webpack_require__(48);
 let LocalStrategy = class LocalStrategy extends passport_1.PassportStrategy(passport_local_1.Strategy) {
@@ -2510,13 +2512,14 @@ var AuthService_1, _a, _b, _c;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AuthService = void 0;
 const common_1 = __webpack_require__(8);
-const jwt_1 = __webpack_require__(19);
+const jwt_1 = __webpack_require__(20);
 const typeorm_1 = __webpack_require__(13);
-const constants_1 = __webpack_require__(25);
+const constants_1 = __webpack_require__(26);
 const user_entity_1 = __webpack_require__(16);
 const user_service_1 = __webpack_require__(31);
 const typeorm_2 = __webpack_require__(11);
 const utils_1 = __webpack_require__(33);
+const class_transformer_1 = __webpack_require__(17);
 let AuthService = AuthService_1 = class AuthService {
     constructor(authRepository, jwtService, userService) {
         this.authRepository = authRepository;
@@ -2553,7 +2556,8 @@ let AuthService = AuthService_1 = class AuthService {
     async login(user) {
         const token = await this.userService.getAccessToken(user);
         const foundUser = await this.userService.findUserByUsername(user.username);
-        return { ...foundUser, ...token };
+        const result = class_transformer_1.plainToClass(user_entity_1.User, foundUser);
+        return { ...result, ...token };
     }
     async getResetPwdToken(username) {
         const existedUser = await this.userService.findUserByUsername(username);
@@ -2603,7 +2607,7 @@ const swagger_1 = __webpack_require__(6);
 const jwt_resetpwd_guard_1 = __webpack_require__(50);
 const user_service_1 = __webpack_require__(31);
 const local_auth_guard_1 = __webpack_require__(51);
-const constants_1 = __webpack_require__(25);
+const constants_1 = __webpack_require__(26);
 const auth_service_1 = __webpack_require__(48);
 const auth_dto_1 = __webpack_require__(52);
 let AuthController = AuthController_1 = class AuthController {
@@ -2712,7 +2716,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.JwtResetPwdGuard = void 0;
 const common_1 = __webpack_require__(8);
-const passport_1 = __webpack_require__(20);
+const passport_1 = __webpack_require__(21);
 let JwtResetPwdGuard = class JwtResetPwdGuard extends passport_1.AuthGuard('reset-password') {
 };
 JwtResetPwdGuard = __decorate([
@@ -2736,7 +2740,7 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LocalAuthGuard = void 0;
 const common_1 = __webpack_require__(8);
-const passport_1 = __webpack_require__(20);
+const passport_1 = __webpack_require__(21);
 let LocalAuthGuard = class LocalAuthGuard extends passport_1.AuthGuard('local') {
 };
 LocalAuthGuard = __decorate([
@@ -2811,10 +2815,10 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ResetPwdJwtStrategy = void 0;
-const passport_jwt_1 = __webpack_require__(24);
-const passport_1 = __webpack_require__(20);
+const passport_jwt_1 = __webpack_require__(25);
+const passport_1 = __webpack_require__(21);
 const common_1 = __webpack_require__(8);
-const constants_1 = __webpack_require__(25);
+const constants_1 = __webpack_require__(26);
 let ResetPwdJwtStrategy = class ResetPwdJwtStrategy extends passport_1.PassportStrategy(passport_jwt_1.Strategy, constants_1.passportStrategies.RESET_PASSWORD) {
     constructor() {
         super({
