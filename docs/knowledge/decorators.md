@@ -46,14 +46,73 @@ Parameter decorator |  `(classPrototype: {}, paramName: string, index: number) =
 
 
 #### Class decorator
-`@serialize` ở ví dụ trên là Class decorator, chúng ta có thể cài đặt như sau
 ```ts
-function serialize<T extends {new(...any[]) => any}>(Construtor: T){
-    
+function changeAmount<T extends { new (...args: any[]): {} }>(constructor: T) {
+  return class extends constructor {
+    amount = 3;
+  };
 }
+
+@changeAmount
+class CourseController {
+  amount = 2;
+
+  getAllCourses(): string {
+    return 'Course';
+  }
+}
+
+const courseController = new CourseController();
+console.log('amount', courseController.amount);  // amount 3
+
 ```
 #### Method decorator
+```ts
+function mistransmit() {
+  return function (
+    target: any,
+    propertyKey: string,
+    descriptor: PropertyDescriptor
+  ) {
+    descriptor.value = function () {
+      const result = 'I says somethings different';
+      return result;
+    };
+
+    return descriptor;
+  };
+}
+
+class Person {
+  public name: string;
+  public surname: string;
+
+  constructor(name: string, surname: string) {
+    this.name = name;
+    this.surname = surname;
+  }
+
+  @mistransmit()
+  public saySomething(something: string, somethingElse: string): string {
+    return (
+      this.name +
+      ' ' +
+      this.surname +
+      ' says: ' +
+      something +
+      ' ' +
+      somethingElse
+    );
+  }
+}
+
+var p = new Person('remo', 'jansen');
+const says = p.saySomething('I love playing', 'halo');
+console.log(says); // I says somethings different
+```
 #### Properties decorator
+```ts
+```
 #### Accessor decorator
 #### Parameter decorator
 ## Tại sao và khi nào dùng decorator
