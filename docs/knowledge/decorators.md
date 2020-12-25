@@ -68,6 +68,10 @@ const courseController = new CourseController();
 console.log('amount', courseController.amount); // amount 3
 ```
 
+Class decorators là hàm nhận một tham số: class. Decorator function sẽ return một class thay thế class nó decorate khi run time.
+
+TypeScript thừa nhận: một decorator không thay đổi 'thứ' nó decorate, nghĩa là không thêm hay xóa method hoặc thuộc tính.
+
 #### Method decorator
 
 ```ts
@@ -258,6 +262,7 @@ Nếu không tính công của thợ pha chế, thì giá thành tiền của m�
 - coupon nếu có.
 
 Hmm, giờ thì, thay vì bơi trong đống subclass, bạn có thể dùng decorator. Nguyên liệu, size, coupon sẽ có parameter decorator giải quyết. Ứng dụng parameter decorator chỗ này rất tốt trong trường hợp giá cả nguyên liệu đổi (thực tế thì tần suất đổi thường xuyên). Cả method `cost` sẽ cần method decorator xử lý. Cách cài đặt có thể tương tự như [Parameter Decorator](#parameter-decorator)
+
 
 ## Chú thích
 
