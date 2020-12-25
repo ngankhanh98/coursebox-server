@@ -68,6 +68,10 @@ const courseController = new CourseController();
 console.log('amount', courseController.amount); // amount 3
 ```
 
+Class decorators là hàm nhận một tham số: class. Decorator function sẽ return một class thay thế class nó decorate khi run time.
+
+TypeScript thừa nhận: một decorator không thay đổi 'thứ' nó decorate, nghĩa là không thêm hay xóa method hoặc thuộc tính.
+
 #### Method decorator
 
 ```ts
@@ -234,6 +238,7 @@ Hai.greet(''); // Error: Parameter missing
 All the above code work and work well with >=ES6.
 
 ## Ứng dụng decorator
+
 Người ta dùng decorator vì một số design principle họ tổng quát được từ các case tương tự nhau. Các principle như sau:
 
 ### #1. Classes should be open for extension, but closed for modification.
@@ -253,17 +258,33 @@ Cơ mà, giả sử quán cafe cơ bản như StartBucks (chỉ cafe thôi), sư
 ![](https://github.com/ngankhanh98/coursebox-server/blob/master/docs/img/class-explotion.png?raw=true)
 
 Nếu không tính công của thợ pha chế, thì giá thành tiền của một thức uống phụ thuộc trực tiếp vào:
+
 - giá nguyên liệu,
 - size,
 - coupon nếu có.
 
 Hmm, giờ thì, thay vì bơi trong đống subclass, bạn có thể dùng decorator. Nguyên liệu, size, coupon sẽ có parameter decorator giải quyết. Ứng dụng parameter decorator chỗ này rất tốt trong trường hợp giá cả nguyên liệu đổi (thực tế thì tần suất đổi thường xuyên). Cả method `cost` sẽ cần method decorator xử lý. Cách cài đặt có thể tương tự như [Parameter Decorator](#parameter-decorator)
 
+## Kết luận
+
+### Decorator là tương lai mới
+
+Decorator, dù sớm được giới thiệu bởi GoF như một design pattern, và đã ứng dụng trong các framework, nhưng khái niệm này chưa nhận được sự chú ý thỏa đáng.
+
+Các kiến trúc sử dụng decorator có khả năng bảo trì ổn (do class không bị thay đổi, và hạn chế class kế thừa)
+
+Decorator hiện là feature chính thức của TypeScript và đang trong stage 2 proposal của JavaScript. Tương lai không xa, decorator trong framework nói riêng và design pattern decorator nói chung sẽ nhận được sự công nhận đúng mức.
+
+### Decorator có thể còn non nớt
+
+_"Until decorators in TypeScript become a more mature feature, I recommend you avoid using them and stick to regular functions instead"_, Boris Cherny, A longtime JavaScript programmer and Programming TypeScript's author
+
 ## Chú thích
 
 [1] _Metaprogramming_: Metaprogramming is a programming technique in which computer programs have the ability to treat other programs as their data. It means that a program can be designed to read, generate, analyze or transform other programs, and even modify itself while running.
 
 ## Acknowledge
+
 - Head First Design Pattern, Elisabeth Freeman, Kathy Sierra, 2004
 - Programming TypeScript, Boris Cherny, 2019
 - TypeScript Decorators Example, https://gist.github.com/remojansen/16c661a7afd68e22ac6e
