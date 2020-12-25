@@ -112,10 +112,124 @@ console.log(says); // I says somethings different
 ```
 #### Properties decorator
 ```ts
+import 'reflect-metadata';
+
+const formatMetadataKey = Symbol('format');
+
+function format(formatString: string) {
+  return Reflect.metadata(formatMetadataKey, formatString);
+}
+
+class Greeter {
+  @format('Hello, %s') // store metadata
+  greeting: string;
+
+  constructor(message: string) {
+    this.greeting = message;
+  }
+  greet() {
+    let formatString = getFormat(this, 'greeting'); // call function to retrive metadata
+    return formatString.replace('%s', this.greeting); // string processed
+  }
+}
+
+function getFormat(target: any, propertyKey: string) {
+  const result = Reflect.getMetadata(formatMetadataKey, target, propertyKey);
+  return result;
+}
+
+const greeter = new Greeter('Khánh');
+console.log(greeter.greet()); // Hello, Khánh
 ```
 #### Accessor decorator
+```ts
+function toInt() {
+  return function (
+    target: any,
+    accessorName: string,
+    descriptor: PropertyDescriptor
+  ) {
+    descriptor.get = function () {
+      return 'Hello';
+    };
+    return descriptor;
+  };
+}
+
+class Point {
+  private _x: number;
+  private y: number;
+  constructor(_x: number, _y: number) {
+    this._x = _x;
+    this.y = _y;
+  }
+
+  @toInt()
+  get x(): number {
+    return this._x;
+  }
+}
+
+const A = new Point(2, 0);
+console.log('A.x', A.x) // A.x Hello
+```
 #### Parameter decorator
-## Tại sao và khi nào dùng decorator
+```ts
+import 'reflect-metadata';
+const metadataKey = Symbol('required');
+
+class Greeter {
+  greeting: string;
+
+  constructor(message: string) {
+    this.greeting = message;
+  }
+
+  @validate
+  greet(@required name: string) {
+    return 'Hello ' + name + ', ' + this.greeting;
+  }
+}
+
+function required(target: {}, paramName: string, index: number) {
+  const existingRequires: number[] =
+    Reflect.getOwnMetadata(metadataKey, target) || [];
+  existingRequires.push(index);
+
+  Reflect.defineMetadata(metadataKey, existingRequires, target);
+}
+
+function validate(
+  classPrototype: {},
+  methodName: string,
+  descriptor: PropertyDescriptor
+) {
+  descriptor.value = function () {
+    const requiredFields = Reflect.getOwnMetadata(metadataKey, classPrototype);
+    if (!arguments[requiredFields[0]]) {
+      throw new Error('Parameter missing');
+    }
+  };
+
+  return descriptor;
+}
+
+const Hai = new Greeter('Hai');
+Hai.greet('Minh');
+Hai.greet('Hung');
+Hai.greet('Tuan'); 
+
+Hai.greet(''); // Error: Parameter missing
+```
+
+All the above code works with >=ES6.
+
+## Ứng dụng decorator
+### #1. Classes should be open for extension, but closed for modification.
+Khi cần hoặc khi thay đổi yêu cầu, việc mở rộng class là khuyến khích: thêm thuộc tính hoặc method mới. Tuy nhiên, thay đổi class là cấm kỵ. Code (Class) cũ mất nhiều thời gian, công sức để cài và fix bug. Miễn class cũ chạy tốt, không sửa nó.
+
+Vậy làm sao nếu muốn thay đổi hành vi của một class mà không thay đổi nó? Decorator. Decorator bản chất là một **design pattern**. Mục đích của decorator là cho phép class thay đổi hành vi linh hoạt mà không đổi code cũ. 
+### #2. Favor composition over inheritance.
 
 ## Hạn chế
 
